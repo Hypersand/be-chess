@@ -18,15 +18,23 @@ class BoardTest {
     @Test
     public void create() throws Exception {
 
-        Pawn white = new Pawn(Pawn.WHITE_COLOR);
-        board.add(white);
-        assertEquals(1, board.size());
-        assertEquals(white, board.findPawn(0));
+        Pawn white = createPawnAndAddToBoard(Pawn.WHITE_COLOR);
+        verifyBoard(white, 1, 0);
 
-        Pawn black = new Pawn(Pawn.BLACK_COLOR);
-        board.add(black);
-        assertEquals(2, board.size());
-        assertEquals(black, board.findPawn(1));
+        Pawn black = createPawnAndAddToBoard(Pawn.BLACK_COLOR);
+        verifyBoard(black, 2, 1);
+    }
+
+    private Pawn createPawnAndAddToBoard(String color) {
+        Pawn pawn = new Pawn(color);
+        board.add(pawn);
+
+        return pawn;
+    }
+
+    private void verifyBoard(Pawn pawn, int size, int index) {
+        assertEquals(size, board.size());
+        assertEquals(pawn, board.findPawn(index));
     }
 
 }
