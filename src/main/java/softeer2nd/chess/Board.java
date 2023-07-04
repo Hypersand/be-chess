@@ -4,6 +4,7 @@ import softeer2nd.chess.pieces.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board extends ArrayList<ArrayList<Pawn>> {
 
@@ -48,25 +49,23 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
     }
 
     public String getWhitePawnsResult() {
-        StringBuilder sb = new StringBuilder();
 
-        sbPawnList(whitePawnList, sb);
-
-        return sb.toString();
+        return sbPawnList(whitePawnList, Pawn.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
-        StringBuilder sb = new StringBuilder();
 
-        sbPawnList(blackPawnList, sb);
-
-        return sb.toString();
+        return sbPawnList(blackPawnList, Pawn.BLACK_COLOR);
     }
 
-    private void sbPawnList(List<Pawn> list, StringBuilder sb) {
-        for (Pawn pawn : list) {
-            sb.append(pawn.getRepresentation());
-        }
+    private String sbPawnList(List<Pawn> pawnList, String color) {
+
+        StringBuilder sb = new StringBuilder();
+
+        return pawnList.stream()
+                .filter(pawn -> pawn.getColor().equals(color))
+                .map(pawn -> String.valueOf(pawn.getRepresentation()))
+                .collect(Collectors.joining());
     }
 
     public void print() {
