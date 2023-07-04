@@ -75,21 +75,12 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
     @Override
     public String toString() {
 
-        StringBuilder sb = new StringBuilder();
-
-        for (List<Pawn> col : this) {
-            if (col.isEmpty()) {
-                sb.append("........").append("\n");
-                continue;
-            }
-
-            for (Pawn pawn : col) {
-                sb.append(pawn.getRepresentation());
-            }
-
-            sb.append("\n");
-        }
-
-        return sb.toString();
+        return this.stream()
+                .map(col -> col.isEmpty() ? "........" : col.stream()
+                        .map(pawn -> String.valueOf(pawn.getRepresentation()))
+                        .collect(Collectors.joining())
+                )
+                .collect(Collectors.joining("\n"));
     }
 }
+

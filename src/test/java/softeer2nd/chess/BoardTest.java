@@ -91,7 +91,7 @@ class BoardTest {
                 + "........" + "\n"
                 + "........" + "\n"
                 + "PPPPPPPP" + "\n"
-                + "........" + "\n";
+                + "........";
 
         assertEquals(expectPrint, board.toString());
     }
