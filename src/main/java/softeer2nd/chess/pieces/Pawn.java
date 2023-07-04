@@ -4,17 +4,27 @@ public class Pawn {
 
     public static final String WHITE_COLOR = "white";
     public static final String BLACK_COLOR = "black";
-    private String color;
+    public static final char WHITE_REPRESENTATION = 'p';
+    public static final char BLACK_REPRESENTATION = 'P';
 
-    public Pawn(String color) {
+    private String color;
+    private char representation;
+
+    public Pawn(String color, char representation) {
         this.color = color;
+        this.representation = representation;
     }
 
     public Pawn() {
-        this.color = "white";
+        color = "white";
+        representation = WHITE_REPRESENTATION;
     }
 
     public String getColor() {
-        return this.color;
+        return color;
+    }
+
+    public char getRepresentation() {
+        return representation;
     }
 }
