@@ -50,15 +50,15 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
 
     public String getWhitePawnsResult() {
 
-        return sbPawnList(whitePawnList, Pawn.WHITE_COLOR);
+        return representationPawnList(whitePawnList, Pawn.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
 
-        return sbPawnList(blackPawnList, Pawn.BLACK_COLOR);
+        return representationPawnList(blackPawnList, Pawn.BLACK_COLOR);
     }
 
-    private String sbPawnList(List<Pawn> pawnList, String color) {
+    private String representationPawnList(List<Pawn> pawnList, String color) {
 
         StringBuilder sb = new StringBuilder();
 
