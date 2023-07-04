@@ -26,9 +26,6 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
 
         for (int i = 0; i < 8; i++) {
             whitePawnList.add(new Pawn());
-        }
-
-        for (int i = 0; i < 8; i++) {
             blackPawnList.add(new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION));
         }
 
