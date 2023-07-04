@@ -1,13 +1,12 @@
 package softeer2nd.chess;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Pawn;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
@@ -16,13 +15,14 @@ class BoardTest {
     @BeforeEach
     public void createBoard() {
         board = new Board();
-        for (int i = 0; i < 8; i++) {
-            board.add(new ArrayList<>());
-        }
     }
 
     @Test
     public void create() throws Exception {
+        
+        for (int i = 0; i < 8; i++) {
+            board.add(new ArrayList<>());
+        }
 
         Pawn white = createPawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
         addToBoard(white);
@@ -59,15 +59,29 @@ class BoardTest {
 
     @Test
     public void initialize() throws Exception {
-        Board board = new Board();
         board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
     @Test
+    public void getWhitePawnsResult() {
+        board.initialize();
+        String whitePawnsResult = board.getWhitePawnsResult();
+
+        assertEquals(whitePawnsResult, "pppppppp");
+    }
+
+    @Test
+    public void getBlackPawnsResult() {
+        board.initialize();
+        String blackPawnsResult = board.getBlackPawnsResult();
+
+        assertEquals(blackPawnsResult, "PPPPPPPP");
+    }
+
+    @Test
     public void print() {
-        Board board = new Board();
         board.initialize();
 
         String expectPrint = "........" + "\n"
