@@ -2,6 +2,8 @@ package softeer2nd.chess.sixPieces;
 
 public class Pawn {
 
+    public static final String WHITE_COLOR = "white";
+    public static final String BLACK_COLOR = "black";
     private String color;
 
     public Pawn(String color) {
