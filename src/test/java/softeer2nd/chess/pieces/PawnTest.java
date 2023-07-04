@@ -1,4 +1,4 @@
-package softeer2nd.chess.sixPieces;
+package softeer2nd.chess.pieces;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
