@@ -18,15 +18,15 @@ class BoardTest {
     @Test
     public void create() throws Exception {
 
-        Pawn white = createPawnAndAddToBoard(Pawn.WHITE_COLOR);
+        Pawn white = createPawnAndAddToBoard(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
         verifyBoard(white, 1, 0);
 
-        Pawn black = createPawnAndAddToBoard(Pawn.BLACK_COLOR);
+        Pawn black = createPawnAndAddToBoard(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
         verifyBoard(black, 2, 1);
     }
 
-    private Pawn createPawnAndAddToBoard(String color) {
-        Pawn pawn = new Pawn(color);
+    private Pawn createPawnAndAddToBoard(String color, char representation) {
+        Pawn pawn = new Pawn(color, representation);
         board.add(pawn);
 
         return pawn;
