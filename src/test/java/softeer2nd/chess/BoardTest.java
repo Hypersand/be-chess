@@ -3,6 +3,8 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.utils.StringUtils.appendNewLine;
 
@@ -51,6 +53,26 @@ class BoardTest {
 
         String blackPawnsResult = board.getBlackPawnsResult();
         assertEquals(blackPawnsResult, "PPPPPPPP");
+    }
+
+    @Test
+    public void getWhitePiecesResult() {
+
+        String piecesRepresentation = board.get(7).stream()
+                .map(piece -> String.valueOf(piece.getRepresentation()))
+                .collect(Collectors.joining());
+
+        assertEquals(piecesRepresentation, "rnbqkbnr");
+    }
+
+    @Test
+    public void getBlackPiecesResult() {
+
+        String piecesRepresentation = board.get(0).stream()
+                .map(piece -> String.valueOf(piece.getRepresentation()))
+                .collect(Collectors.joining());
+
+        assertEquals(piecesRepresentation, "RNBQKBNR");
     }
 
     @Test
