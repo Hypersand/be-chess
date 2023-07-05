@@ -78,13 +78,10 @@ public class Board extends ArrayList<ArrayList<Piece>> {
     }
 
     public int pieceCount() {
-        int count = 0;
-        for (ArrayList<Piece> pieces : this) {
-            for (Piece piece : pieces) {
-                count++;
-            }
-        }
-        return count;
+
+        return (int) this.stream()
+                .flatMap(pieces -> pieces.stream())
+                .count();
     }
 
     public String getWhitePawnsResult() {
