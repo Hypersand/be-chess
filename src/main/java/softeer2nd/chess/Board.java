@@ -18,10 +18,6 @@ public class Board extends ArrayList<ArrayList<Piece>> {
     public Board() {
     }
 
-    public Piece findPawn(int row, int col) {
-        return this.get(row).get(col);
-    }
-
     public void initialize() {
 
         whitePawnList = new ArrayList<>();
@@ -95,8 +91,6 @@ public class Board extends ArrayList<ArrayList<Piece>> {
     }
 
     private String representationPawnList(List<Piece> pawnList, String color) {
-
-        StringBuilder sb = new StringBuilder();
 
         return pawnList.stream()
                 .filter(pawn -> pawn.getColor().equals(color))
