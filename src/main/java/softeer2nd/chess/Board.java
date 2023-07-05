@@ -9,27 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Board extends ArrayList<ArrayList<Piece>> {
+public class Board extends ArrayList<Rank> {
 
 
-    public List<Piece> whitePawnList;
-    public List<Piece> blackPawnList;
-    public List<Piece> whitePieceList;
-    public List<Piece> blackPieceList;
-    public List<Piece> blankList;
+    public Rank whitePawnList;
+    public Rank blackPawnList;
+    public Rank whitePieceList;
+    public Rank blackPieceList;
+    public Rank blankList;
 
     public Board() {
     }
 
     public void initialize() {
 
-        whitePawnList = new ArrayList<>();
-        blackPawnList = new ArrayList<>();
+        whitePawnList = new Rank();
+        blackPawnList = new Rank();
 
-        whitePieceList = new ArrayList<>();
-        blackPieceList = new ArrayList<>();
+        whitePieceList = new Rank();
+        blackPieceList = new Rank();
 
-        blankList = new ArrayList<>();
+        blankList = new Rank();
 
         for (int i = 0; i < 8; i++) {
             whitePawnList.add(Piece.createPiece(Color.WHITE, Type.PAWN));
@@ -39,7 +39,7 @@ public class Board extends ArrayList<ArrayList<Piece>> {
 
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
-                this.add(new ArrayList<>());
+                this.add(new Rank());
                 get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
                 get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
                 get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
@@ -52,17 +52,17 @@ public class Board extends ArrayList<ArrayList<Piece>> {
             }
 
             if (i == 1) {
-                this.add((ArrayList<Piece>) blackPawnList);
+                this.add(blackPawnList);
                 continue;
             }
 
             if (i == 6) {
-                this.add((ArrayList<Piece>) whitePawnList);
+                this.add(whitePawnList);
                 continue;
             }
 
             if (i == 7) {
-                this.add(new ArrayList<>());
+                this.add(new Rank());
                 get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
                 get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
                 get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
@@ -75,7 +75,7 @@ public class Board extends ArrayList<ArrayList<Piece>> {
             }
 
             else {
-                this.add((ArrayList<Piece>) blankList);
+                this.add(blankList);
             }
 
         }
