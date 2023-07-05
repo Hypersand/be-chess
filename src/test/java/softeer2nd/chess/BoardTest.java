@@ -1,7 +1,9 @@
 package softeer2nd.chess;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.pieces.Piece;
 
 import java.util.stream.Collectors;
 
@@ -87,6 +89,25 @@ class BoardTest {
                 + "pppppppp" + "\n"
                 + "rnbqkbnr" + "\n";
         assertEquals(expectPrint, board.toString());
+    }
+
+    @Test
+    @DisplayName("기물의 색과 종류로 기물의 개수를 반환한다.")
+    public void getPieceCountByColorAndType() {
+
+        assertEquals(32, board.pieceCount(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE));
+        assertEquals(8, board.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN));
+        assertEquals(8, board.pieceCount(Piece.Color.BLACK, Piece.Type.PAWN));
+        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.ROOK));
+        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.ROOK));
+        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.BISHOP));
+        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.BISHOP));
+        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT));
+        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.KNIGHT));
+        assertEquals(1, board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN));
+        assertEquals(1, board.pieceCount(Piece.Color.BLACK, Piece.Type.QUEEN));
+        assertEquals(1, board.pieceCount(Piece.Color.WHITE, Piece.Type.KING));
+        assertEquals(1, board.pieceCount(Piece.Color.BLACK, Piece.Type.KING));
     }
 
 }
