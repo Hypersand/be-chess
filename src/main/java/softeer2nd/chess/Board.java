@@ -11,9 +11,8 @@ import java.util.stream.Collectors;
 
 public class Board extends ArrayList<Rank> {
 
-
-    public Rank whitePawnList;
-    public Rank blackPawnList;
+    public Rank whitePawnRank;
+    public Rank blackPawnRank;
     public Rank whitePieceList;
     public Rank blackPieceList;
     public Rank blankList;
@@ -23,8 +22,8 @@ public class Board extends ArrayList<Rank> {
 
     public void initialize() {
 
-        whitePawnList = new Rank();
-        blackPawnList = new Rank();
+        whitePawnRank = Rank.createWhitePawnRank();
+        blackPawnRank = Rank.createBlackPawnRank();
 
         whitePieceList = new Rank();
         blackPieceList = new Rank();
@@ -32,8 +31,6 @@ public class Board extends ArrayList<Rank> {
         blankList = new Rank();
 
         for (int i = 0; i < 8; i++) {
-            whitePawnList.add(Piece.createPiece(Color.WHITE, Type.PAWN));
-            blackPawnList.add(Piece.createPiece(Color.BLACK, Type.PAWN));
             blankList.add(Piece.createBlank());
         }
 
@@ -52,12 +49,12 @@ public class Board extends ArrayList<Rank> {
             }
 
             if (i == 1) {
-                this.add(blackPawnList);
+                this.add(blackPawnRank);
                 continue;
             }
 
             if (i == 6) {
-                this.add(whitePawnList);
+                this.add(whitePawnRank);
                 continue;
             }
 
@@ -72,14 +69,10 @@ public class Board extends ArrayList<Rank> {
                 get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
                 get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
                 continue;
-            }
-
-            else {
+            } else {
                 this.add(blankList);
             }
-
         }
-
     }
 
     public int pieceCount() {
@@ -89,14 +82,22 @@ public class Board extends ArrayList<Rank> {
                 .count();
     }
 
+    public int pieceCount(Color color, Type type) {
+
+        return (int) this.stream()
+                .flatMap(pieces -> pieces.stream())
+                .filter(piece -> piece.getColor() == color && piece.getType() == type)
+                .count();
+    }
+
     public String getWhitePawnsResult() {
 
-        return representationPawnList(whitePawnList, Color.WHITE);
+        return representationPawnList(whitePawnRank, Color.WHITE);
     }
 
     public String getBlackPawnsResult() {
 
-        return representationPawnList(blackPawnList, Color.BLACK);
+        return representationPawnList(blackPawnRank, Color.BLACK);
     }
 
     private String representationPawnList(List<Piece> pawnList, Color color) {
