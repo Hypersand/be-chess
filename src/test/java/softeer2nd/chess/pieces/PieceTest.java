@@ -3,7 +3,7 @@ package softeer2nd.chess.pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PieceTest {
 
@@ -28,6 +28,24 @@ class PieceTest {
         assertEquals(color, piece.getColor());
         assertEquals(representation, piece.getRepresentation());
     }
+
+    @Test
+    @DisplayName("Piece가 검은색 말인지 구분할 수 있어야 한다.")
+    public void isBlack() {
+        Piece piece = Piece.createBlackKing();
+        assertTrue(piece.isBlack());
+        assertFalse(piece.isWhite());
+    }
+
+    @Test
+    @DisplayName("Piece가 흰색 말인지 구분할 수 있어야 한다.")
+    public void isWhite() {
+        Piece piece = Piece.createWhiteRook();
+        assertTrue(piece.isWhite());
+        assertFalse(piece.isBlack());
+    }
+
+
 
 
 
