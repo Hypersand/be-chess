@@ -20,7 +20,7 @@ class BoardTest {
 
     @Test
     public void create() throws Exception {
-        assertEquals(32, board.pieceCount());
+        assertEquals(64, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
                         appendNewLine("RNBQKBNR") +
@@ -37,7 +37,7 @@ class BoardTest {
     @Test
     public void initialize() throws Exception {
 
-        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("pppppppp",board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
@@ -59,7 +59,7 @@ class BoardTest {
     public void getWhitePiecesResult() {
 
         String piecesRepresentation = board.get(7).stream()
-                .map(piece -> String.valueOf(piece.getRepresentation()))
+                .map(piece -> String.valueOf(piece.getType().getRepresentation(piece.getColor())))
                 .collect(Collectors.joining());
 
         assertEquals(piecesRepresentation, "rnbqkbnr");
@@ -69,7 +69,7 @@ class BoardTest {
     public void getBlackPiecesResult() {
 
         String piecesRepresentation = board.get(0).stream()
-                .map(piece -> String.valueOf(piece.getRepresentation()))
+                .map(piece -> String.valueOf(piece.getType().getRepresentation(piece.getColor())))
                 .collect(Collectors.joining());
 
         assertEquals(piecesRepresentation, "RNBQKBNR");
