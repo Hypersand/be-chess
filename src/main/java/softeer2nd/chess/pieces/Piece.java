@@ -29,6 +29,10 @@ public class Piece {
         return new Piece(color, type);
     }
 
+    public static Piece createBlank() {
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
+    }
+
     public enum Color {
         WHITE, BLACK, NOCOLOR;
     }
