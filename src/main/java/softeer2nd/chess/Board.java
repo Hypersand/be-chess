@@ -1,21 +1,24 @@
 package softeer2nd.chess;
 
-import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Piece;
+import softeer2nd.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Board extends ArrayList<ArrayList<Pawn>> {
+public class Board extends ArrayList<ArrayList<Piece>> {
 
 
-    public List<Pawn> whitePawnList;
-    public List<Pawn> blackPawnList;
+    public List<Piece> whitePawnList;
+    public List<Piece> blackPawnList;
+    public List<Piece> whitePieceList;
+    public List<Piece> blackPieceList;
 
     public Board() {
     }
 
-    public Pawn findPawn(int row, int col) {
+    public Piece findPawn(int row, int col) {
         return this.get(row).get(col);
     }
 
@@ -24,19 +27,48 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
         whitePawnList = new ArrayList<>();
         blackPawnList = new ArrayList<>();
 
+        whitePieceList = new ArrayList<>();
+        blackPieceList = new ArrayList<>();
+
         for (int i = 0; i < 8; i++) {
-            whitePawnList.add(new Pawn());
-            blackPawnList.add(new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION));
+            whitePawnList.add(Piece.createWhitePawn());
+            blackPawnList.add(Piece.createBlackPawn());
         }
 
         for (int i = 0; i < 8; i++) {
+            if (i == 0) {
+                this.add(new ArrayList<>());
+                get(0).add(Piece.createBlackRook());
+                get(0).add(Piece.createBlackKnight());
+                get(0).add(Piece.createBlackBishop());
+                get(0).add(Piece.createBlackQueen());
+                get(0).add(Piece.createBlackKing());
+                get(0).add(Piece.createBlackBishop());
+                get(0).add(Piece.createBlackKnight());
+                get(0).add(Piece.createBlackRook());
+                continue;
+            }
+
             if (i == 1) {
-                this.add((ArrayList<Pawn>) whitePawnList);
+                this.add((ArrayList<Piece>) blackPawnList);
                 continue;
             }
 
             if (i == 6) {
-                this.add((ArrayList<Pawn>) blackPawnList);
+                this.add((ArrayList<Piece>) whitePawnList);
+                continue;
+            }
+
+            if (i == 7) {
+                this.add(new ArrayList<>());
+                get(7).add(Piece.createWhiteRook());
+                get(7).add(Piece.createWhiteKnight());
+                get(7).add(Piece.createWhiteBishop());
+                get(7).add(Piece.createWhiteQueen());
+                get(7).add(Piece.createWhiteKing());
+                get(7).add(Piece.createWhiteBishop());
+                get(7).add(Piece.createWhiteKnight());
+                get(7).add(Piece.createWhiteRook());
                 continue;
             }
 
@@ -45,17 +77,27 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
 
     }
 
+    public int pieceCount() {
+        int count = 0;
+        for (ArrayList<Piece> pieces : this) {
+            for (Piece piece : pieces) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public String getWhitePawnsResult() {
 
-        return representationPawnList(whitePawnList, Pawn.WHITE_COLOR);
+        return representationPawnList(whitePawnList, Piece.WHITE_COLOR);
     }
 
     public String getBlackPawnsResult() {
 
-        return representationPawnList(blackPawnList, Pawn.BLACK_COLOR);
+        return representationPawnList(blackPawnList, Piece.BLACK_COLOR);
     }
 
-    private String representationPawnList(List<Pawn> pawnList, String color) {
+    private String representationPawnList(List<Piece> pawnList, String color) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -69,6 +111,10 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
         System.out.println(this);
     }
 
+    public String showBoard() {
+        return this.toString();
+    }
+
     @Override
     public String toString() {
 
@@ -77,7 +123,7 @@ public class Board extends ArrayList<ArrayList<Pawn>> {
                         .map(pawn -> String.valueOf(pawn.getRepresentation()))
                         .collect(Collectors.joining())
                 )
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
     }
 }
 
