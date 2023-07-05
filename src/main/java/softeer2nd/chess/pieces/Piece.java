@@ -17,6 +17,10 @@ public class Piece {
         return type;
     }
 
+    public char getRepresentation() {
+        return type.getRepresentation(getColor());
+    }
+
     public boolean isBlack() {
         return color.equals(Color.BLACK);
     }
@@ -44,9 +48,9 @@ public class Piece {
         BISHOP('b'),
         QUEEN('q'),
         KING('k'),
-        NO_PIECE('x');
+        NO_PIECE('.');
 
-        private char representation;
+        private final char representation;
         Type(char representation) {
             this.representation = representation;
         }

@@ -91,19 +91,19 @@ public class Board extends ArrayList<ArrayList<Piece>> {
 
     public String getWhitePawnsResult() {
 
-        return representationPawnList(whitePawnList, Color.WHITE.name());
+        return representationPawnList(whitePawnList, Color.WHITE);
     }
 
     public String getBlackPawnsResult() {
 
-        return representationPawnList(blackPawnList, Color.BLACK.name());
+        return representationPawnList(blackPawnList, Color.BLACK);
     }
 
-    private String representationPawnList(List<Piece> pawnList, String color) {
+    private String representationPawnList(List<Piece> pawnList, Color color) {
 
         return pawnList.stream()
                 .filter(pawn -> pawn.getColor().equals(color))
-                .map(pawn -> String.valueOf(pawn.getType().getRepresentation(Color.valueOf(color))))
+                .map(pawn -> String.valueOf(pawn.getRepresentation()))
                 .collect(Collectors.joining());
     }
 
@@ -120,7 +120,7 @@ public class Board extends ArrayList<ArrayList<Piece>> {
 
         return this.stream()
                 .map(col -> col.isEmpty() ? "........" : col.stream()
-                        .map(pawn -> String.valueOf(pawn.getType().getRepresentation(pawn.getColor())))
+                        .map(piece -> String.valueOf(piece.getRepresentation()))
                         .collect(Collectors.joining())
                 )
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
