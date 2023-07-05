@@ -51,8 +51,8 @@ class PieceTest {
 
     @Test
     public void getRepresentationPerPiece() throws Exception {
-        assertEquals('p', Type.PAWN.getWhiteRepresentation());
-        assertEquals('P', Type.PAWN.getBlackRepresentation());
+        assertEquals('p', Type.PAWN.getRepresentation(Color.WHITE));
+        assertEquals('P', Type.PAWN.getRepresentation(Color.BLACK));
     }
 
 }
