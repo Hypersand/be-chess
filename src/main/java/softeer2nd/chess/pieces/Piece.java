@@ -51,11 +51,11 @@ public class Piece {
             this.representation = representation;
         }
 
-        public char getWhiteRepresentation() {
-            return representation;
-        }
+        public char getRepresentation(Color color) {
+            if (color.equals(Color.WHITE)) {
+                return representation;
+            }
 
-        public char getBlackRepresentation() {
             return Character.toUpperCase(representation);
         }
     }

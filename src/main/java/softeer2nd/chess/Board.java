@@ -1,6 +1,8 @@
 package softeer2nd.chess;
 
 import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.pieces.Piece.Color;
+import softeer2nd.chess.pieces.Piece.Type;
 import softeer2nd.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class Board extends ArrayList<ArrayList<Piece>> {
     public List<Piece> blackPawnList;
     public List<Piece> whitePieceList;
     public List<Piece> blackPieceList;
+    public List<Piece> blankList;
 
     public Board() {
     }
@@ -26,22 +29,25 @@ public class Board extends ArrayList<ArrayList<Piece>> {
         whitePieceList = new ArrayList<>();
         blackPieceList = new ArrayList<>();
 
+        blankList = new ArrayList<>();
+
         for (int i = 0; i < 8; i++) {
-            whitePawnList.add(Piece.createWhitePawn());
-            blackPawnList.add(Piece.createBlackPawn());
+            whitePawnList.add(Piece.createPiece(Color.WHITE, Type.PAWN));
+            blackPawnList.add(Piece.createPiece(Color.BLACK, Type.PAWN));
+            blankList.add(Piece.createBlank());
         }
 
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
                 this.add(new ArrayList<>());
-                get(0).add(Piece.createBlackRook());
-                get(0).add(Piece.createBlackKnight());
-                get(0).add(Piece.createBlackBishop());
-                get(0).add(Piece.createBlackQueen());
-                get(0).add(Piece.createBlackKing());
-                get(0).add(Piece.createBlackBishop());
-                get(0).add(Piece.createBlackKnight());
-                get(0).add(Piece.createBlackRook());
+                get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
+                get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
+                get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
+                get(0).add(Piece.createPiece(Color.BLACK, Type.QUEEN));
+                get(0).add(Piece.createPiece(Color.BLACK, Type.KING));
+                get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
+                get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
+                get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
                 continue;
             }
 
@@ -57,18 +63,21 @@ public class Board extends ArrayList<ArrayList<Piece>> {
 
             if (i == 7) {
                 this.add(new ArrayList<>());
-                get(7).add(Piece.createWhiteRook());
-                get(7).add(Piece.createWhiteKnight());
-                get(7).add(Piece.createWhiteBishop());
-                get(7).add(Piece.createWhiteQueen());
-                get(7).add(Piece.createWhiteKing());
-                get(7).add(Piece.createWhiteBishop());
-                get(7).add(Piece.createWhiteKnight());
-                get(7).add(Piece.createWhiteRook());
+                get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
+                get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
+                get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
+                get(7).add(Piece.createPiece(Color.WHITE, Type.QUEEN));
+                get(7).add(Piece.createPiece(Color.WHITE, Type.KING));
+                get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
+                get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
+                get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
                 continue;
             }
 
-            this.add(new ArrayList<>());
+            else {
+                this.add((ArrayList<Piece>) blankList);
+            }
+
         }
 
     }
@@ -82,19 +91,19 @@ public class Board extends ArrayList<ArrayList<Piece>> {
 
     public String getWhitePawnsResult() {
 
-        return representationPawnList(whitePawnList, Piece.WHITE_COLOR);
+        return representationPawnList(whitePawnList, Color.WHITE.name());
     }
 
     public String getBlackPawnsResult() {
 
-        return representationPawnList(blackPawnList, Piece.BLACK_COLOR);
+        return representationPawnList(blackPawnList, Color.BLACK.name());
     }
 
     private String representationPawnList(List<Piece> pawnList, String color) {
 
         return pawnList.stream()
                 .filter(pawn -> pawn.getColor().equals(color))
-                .map(pawn -> String.valueOf(pawn.getRepresentation()))
+                .map(pawn -> String.valueOf(pawn.getType().getRepresentation(Color.valueOf(color))))
                 .collect(Collectors.joining());
     }
 
@@ -111,7 +120,7 @@ public class Board extends ArrayList<ArrayList<Piece>> {
 
         return this.stream()
                 .map(col -> col.isEmpty() ? "........" : col.stream()
-                        .map(pawn -> String.valueOf(pawn.getRepresentation()))
+                        .map(pawn -> String.valueOf(pawn.getType().getRepresentation(pawn.getColor())))
                         .collect(Collectors.joining())
                 )
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
