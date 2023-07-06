@@ -144,5 +144,18 @@ public class Board {
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
     }
 
+    public void initializeEmpty() {
+        board.clear();
+
+        Rank blankRank = new Rank(blankList);
+
+        for (int i = 0; i < 8; i++) {
+            blankRank.add(Piece.createBlank());
+        }
+
+        for (int i = 0; i < 8; i++) {
+            board.add(blankRank);
+        }
+    }
 }
 
