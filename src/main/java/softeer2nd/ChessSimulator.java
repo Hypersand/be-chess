@@ -6,7 +6,7 @@ import softeer2nd.chess.view.ChessView;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ChessGame {
+public class ChessSimulator {
 
     public static void run() {
 
