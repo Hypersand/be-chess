@@ -120,4 +120,18 @@ class BoardTest {
         assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK), board.findPiece("h1"));
     }
 
+    @Test
+    @DisplayName("특정 위치에 기물을 추가할 수 있어야 한다.")
+    public void move() throws Exception {
+
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK);
+        board.move(position, piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
+    }
+
 }
