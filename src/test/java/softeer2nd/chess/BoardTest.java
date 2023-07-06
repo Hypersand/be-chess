@@ -3,6 +3,7 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.game.ChessGame;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.view.ChessView;
 
@@ -15,13 +16,16 @@ import static softeer2nd.utils.StringUtils.appendNewLine;
 class BoardTest {
 
     private Board board;
-    private final ChessView view = new ChessView();
+    private ChessView view;
+    private ChessGame chessGame;
 
     @BeforeEach
     public void setUp() {
         List<Rank> boardList = new ArrayList<>();
         board = new Board(boardList);
         board.initialize();
+        view = new ChessView();
+        chessGame = new ChessGame(board);
     }
 
     @Test
@@ -129,7 +133,7 @@ class BoardTest {
 
         String position = "b5";
         Piece piece = Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK);
-        board.move(position, piece);
+        chessGame.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
         view.print(board);
@@ -179,7 +183,7 @@ class BoardTest {
     }
 
     private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
+        chessGame.move(position, piece);
     }
 
     @Test
@@ -216,7 +220,7 @@ class BoardTest {
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
-        board.move(sourcePosition, targetPosition);
+        chessGame.move(sourcePosition, targetPosition);
         assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
         assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(targetPosition)), board.findPiece(targetPosition));
     }

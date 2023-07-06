@@ -1,6 +1,7 @@
 package softeer2nd;
 
 import softeer2nd.chess.Board;
+import softeer2nd.chess.game.ChessGame;
 import softeer2nd.chess.view.ChessView;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class ChessSimulator {
 
         Board board = new Board(new ArrayList<>());
         ChessView view = new ChessView();
+        ChessGame chessGame = new ChessGame(board);
 
         while (sc.hasNextLine()) {
 
@@ -32,7 +34,7 @@ public class ChessSimulator {
 
             if (next.startsWith("move")) {
                 String[] input = next.split(" ");
-                board.move(input[1], input[2]);
+                chessGame.move(input[1], input[2]);
                 view.print(board);
             }
 
