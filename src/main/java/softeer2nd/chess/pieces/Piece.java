@@ -8,9 +8,12 @@ public class Piece {
     private final Color color;
     private final Type type;
 
-    private Piece(Color color, Type type) {
+    private final Position position;
+
+    private Piece(Color color, Type type, Position position) {
         this.color = color;
         this.type = type;
+        this.position = position;
     }
 
     public Color getColor() {
@@ -19,6 +22,10 @@ public class Piece {
 
     public Type getType() {
         return type;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public char getRepresentation() {
@@ -33,23 +40,12 @@ public class Piece {
         return color.equals(Color.WHITE);
     }
 
-    public static Piece createPiece(Color color, Type type) {
-        return new Piece(color, type);
-    }
-
     public static Piece createPiece(Color color, Type type, Position position) {
-        return new Piece(color, type);
-    }
-
-    public static Piece createBlank() {
-        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
+        return new Piece(color, type, position);
     }
 
     public static Piece createBlank(Position position) {
-//        String[] px_py = position.getPosition().split("");
-//        int pos_x = px_py[0].charAt(0) - 'a';
-//        int pos_y = 8 - Integer.parseInt(px_py[1]);
-        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE, position);
     }
 
     public enum Color {
