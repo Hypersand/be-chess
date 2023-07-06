@@ -1,10 +1,8 @@
 package softeer2nd;
 
 import softeer2nd.chess.Board;
-import softeer2nd.chess.Rank;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class ChessGame {
@@ -13,14 +11,14 @@ public class ChessGame {
 
         Scanner sc = new Scanner(System.in);
 
-        while (sc.hasNext()) {
+        Board board = new Board(new ArrayList<>());
 
-            String next = sc.next();
+        while (sc.hasNextLine()) {
+
+            String next = sc.nextLine();
 
             if (next.equals("start")) {
                 System.out.println("체스 게임을 시작합니다.");
-                List<Rank> boardList = new ArrayList<>();
-                Board board = new Board(boardList);
                 board.initialize();
                 board.print();
             }
@@ -28,6 +26,12 @@ public class ChessGame {
             if (next.equals("end")) {
                 System.out.println("체스 게임을 종료합니다.");
                 break;
+            }
+
+            if (next.startsWith("move")) {
+                String[] input = next.split(" ");
+                board.move(input[1], input[2]);
+                System.out.println(board.showBoard());
             }
 
         }
