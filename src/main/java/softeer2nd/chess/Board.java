@@ -6,6 +6,8 @@ import softeer2nd.chess.pieces.Piece.Type;
 import softeer2nd.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -186,6 +188,34 @@ public class Board {
         }
 
         return result;
+    }
+
+    public List<Piece> getPieceListByColor(Color color) {
+
+        List<Piece> pieceList = new ArrayList<>();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Piece piece = board.get(i).get(j);
+                if (piece.getColor().equals(color)) {
+                    pieceList.add(piece);
+                }
+            }
+        }
+
+        sortByPointDesc(pieceList);
+
+        return pieceList;
+    }
+
+    public void sortByPointDesc(List<Piece> pieceList) {
+
+        Collections.sort(pieceList, new Comparator<Piece>() {
+            @Override
+            public int compare(Piece p1, Piece p2) {
+                return (int) (p2.getType().getDefaultPoint() - p1.getType().getDefaultPoint());
+            }
+        });
     }
 }
 
