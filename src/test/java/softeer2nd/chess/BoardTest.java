@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.view.ChessView;
 
 import java.util.*;
 
@@ -14,6 +15,7 @@ import static softeer2nd.utils.StringUtils.appendNewLine;
 class BoardTest {
 
     private Board board;
+    private final ChessView view = new ChessView();
 
     @BeforeEach
     public void setUp() {
@@ -33,7 +35,7 @@ class BoardTest {
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewLine("pppppppp") +
                         appendNewLine("rnbqkbnr"),
-                        board.showBoard()
+                        view.showBoard(board)
         );
     }
 
@@ -130,7 +132,7 @@ class BoardTest {
         board.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
+        view.print(board);
     }
 
     @Test
@@ -152,7 +154,7 @@ class BoardTest {
         assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        view.print(board);
     }
 
     @Test
@@ -173,7 +175,7 @@ class BoardTest {
         assertEquals(1.5, board.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(2.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        view.print(board);
     }
 
     private void addPiece(String position, Piece piece) {

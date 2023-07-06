@@ -8,7 +8,7 @@ public class ChessView {
         System.out.println(board.toString());
     }
 
-    public String showBoard() {
-        return this.toString();
+    public String showBoard(Board board) {
+        return board.toString();
     }
 }
