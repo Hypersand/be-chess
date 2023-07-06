@@ -9,103 +9,113 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Board extends ArrayList<Rank> {
+public class Board {
+
+    private final List<Rank> board;
+
+    public List<Piece> whitePawnList = new ArrayList<>();
+    public List<Piece> blackPawnList = new ArrayList<>();
+    public List<Piece> whitePieceList = new ArrayList<>();
+    public List<Piece> blackPieceList = new ArrayList<>();
+    public List<Piece> blankList = new ArrayList<>();
 
     public Rank whitePawnRank;
     public Rank blackPawnRank;
-    public Rank whitePieceList;
-    public Rank blackPieceList;
-    public Rank blankList;
 
-    public Board() {
+    public Board(List<Rank> board) {
+        this.board = board;
+    }
+
+    public void add(Rank rank) {
+        board.add(rank);
+    }
+
+    public Rank get(int index) {
+        return board.get(index);
     }
 
     public void initialize() {
 
-        whitePawnRank = Rank.createWhitePawnRank();
-        blackPawnRank = Rank.createBlackPawnRank();
+        whitePawnRank = Rank.createWhitePawnRank(whitePawnList);
+        blackPawnRank = Rank.createBlackPawnRank(blackPawnList);
 
-        whitePieceList = new Rank();
-        blackPieceList = new Rank();
+        Rank whitePieceRank = new Rank(whitePieceList);
+        Rank blackPieceRank = new Rank(blackPieceList);
 
-        blankList = new Rank();
+        Rank blankRank = new Rank(blankList);
 
         for (int i = 0; i < 8; i++) {
-            blankList.add(Piece.createBlank());
+            blankRank.add(Piece.createBlank());
         }
 
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
-                this.add(new Rank());
-                get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
-                get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
-                get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
-                get(0).add(Piece.createPiece(Color.BLACK, Type.QUEEN));
-                get(0).add(Piece.createPiece(Color.BLACK, Type.KING));
-                get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
-                get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
-                get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
+                board.add(blackPieceRank);
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.QUEEN));
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.KING));
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
+                board.get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
                 continue;
             }
 
             if (i == 1) {
-                this.add(blackPawnRank);
+                board.add(blackPawnRank);
                 continue;
             }
 
             if (i == 6) {
-                this.add(whitePawnRank);
+                board.add(whitePawnRank);
                 continue;
             }
 
             if (i == 7) {
-                this.add(new Rank());
-                get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
-                get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
-                get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
-                get(7).add(Piece.createPiece(Color.WHITE, Type.QUEEN));
-                get(7).add(Piece.createPiece(Color.WHITE, Type.KING));
-                get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
-                get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
-                get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
+                board.add(whitePieceRank);
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.QUEEN));
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.KING));
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
+                board.get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
                 continue;
             } else {
-                this.add(blankList);
+                board.add(blankRank);
             }
         }
     }
 
     public int pieceCount() {
 
-        return (int) this.stream()
-                .flatMap(pieces -> pieces.stream())
-                .count();
+        return board.stream()
+                .mapToInt(Rank::pieceCount)
+                .sum();
     }
 
     public int pieceCount(Color color, Type type) {
 
-        return (int) this.stream()
-                .flatMap(pieces -> pieces.stream())
-                .filter(piece -> piece.getColor() == color && piece.getType() == type)
-                .count();
+        return board.stream()
+                .mapToInt(rank -> rank.pieceCount(color, type))
+                .sum();
     }
 
     public String getWhitePawnsResult() {
 
-        return representationPawnList(whitePawnRank, Color.WHITE);
+        return representationPawnRank(whitePawnRank, Color.WHITE);
     }
 
     public String getBlackPawnsResult() {
 
-        return representationPawnList(blackPawnRank, Color.BLACK);
+        return representationPawnRank(blackPawnRank, Color.BLACK);
     }
 
-    private String representationPawnList(List<Piece> pawnList, Color color) {
+    private String representationPawnRank(Rank pawnRank, Color color) {
 
-        return pawnList.stream()
-                .filter(pawn -> pawn.getColor().equals(color))
-                .map(pawn -> String.valueOf(pawn.getRepresentation()))
-                .collect(Collectors.joining());
+        return pawnRank.representationPawnRank(color);
     }
 
     public void print() {
@@ -119,11 +129,8 @@ public class Board extends ArrayList<Rank> {
     @Override
     public String toString() {
 
-        return this.stream()
-                .map(col -> col.isEmpty() ? "........" : col.stream()
-                        .map(piece -> String.valueOf(piece.getRepresentation()))
-                        .collect(Collectors.joining())
-                )
+        return board.stream()
+                .map(rank -> rank.isEmpty() ? "........" : rank.representationRank())
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
     }
 }
