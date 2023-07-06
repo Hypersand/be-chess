@@ -1,7 +1,10 @@
 package softeer2nd;
 
 import softeer2nd.chess.Board;
+import softeer2nd.chess.Rank;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ChessGame {
@@ -16,7 +19,8 @@ public class ChessGame {
 
             if (next.equals("start")) {
                 System.out.println("체스 게임을 시작합니다.");
-                Board board = new Board();
+                List<Rank> boardList = new ArrayList<>();
+                Board board = new Board(boardList);
                 board.initialize();
                 board.print();
             }

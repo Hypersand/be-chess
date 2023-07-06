@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Piece;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,12 +18,14 @@ class BoardTest {
 
     @BeforeEach
     public void setUp() {
-        board = new Board();
+        List<Rank> boardList = new ArrayList<>();
+        board = new Board(boardList);
         board.initialize();
     }
 
     @Test
     public void create() throws Exception {
+
         assertEquals(64, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
@@ -60,9 +64,7 @@ class BoardTest {
     @Test
     public void getWhitePiecesResult() {
 
-        String piecesRepresentation = board.get(7).stream()
-                .map(piece -> String.valueOf(piece.getType().getRepresentation(piece.getColor())))
-                .collect(Collectors.joining());
+        String piecesRepresentation = board.get(7).representationRank();
 
         assertEquals(piecesRepresentation, "rnbqkbnr");
     }
@@ -70,9 +72,7 @@ class BoardTest {
     @Test
     public void getBlackPiecesResult() {
 
-        String piecesRepresentation = board.get(0).stream()
-                .map(piece -> String.valueOf(piece.getType().getRepresentation(piece.getColor())))
-                .collect(Collectors.joining());
+        String piecesRepresentation = board.get(0).representationRank();
 
         assertEquals(piecesRepresentation, "RNBQKBNR");
     }
