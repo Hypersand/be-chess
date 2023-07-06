@@ -206,6 +206,17 @@ class BoardTest {
                 .isSortedAccordingTo(Comparator.comparing((Piece e) -> e.getType().getDefaultPoint()).reversed());
     }
 
+    @Test
+    @DisplayName("기물이 현재 위치에서 다른 위치로 이동할 수 있어야 한다.")
+    public void moveToTarget() throws Exception {
 
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+        board.move(sourcePosition, targetPosition);
+        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(targetPosition)), board.findPiece(targetPosition));
+    }
 
 }
