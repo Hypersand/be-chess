@@ -26,6 +26,10 @@ public class Rank {
         return rank.get(pos);
     }
 
+    public void set(int index, Piece piece) {
+        rank.set(index, piece);
+    }
+
     public int pieceCount() {
         return (int) rank.stream().count();
     }

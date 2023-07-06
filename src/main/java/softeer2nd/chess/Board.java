@@ -13,21 +13,11 @@ public class Board {
 
     private final List<Rank> board;
 
-    public List<Piece> whitePawnList = new ArrayList<>();
-    public List<Piece> blackPawnList = new ArrayList<>();
-    public List<Piece> whitePieceList = new ArrayList<>();
-    public List<Piece> blackPieceList = new ArrayList<>();
-    public List<Piece> blankList = new ArrayList<>();
-
     public Rank whitePawnRank;
     public Rank blackPawnRank;
 
     public Board(List<Rank> board) {
         this.board = board;
-    }
-
-    public void add(Rank rank) {
-        board.add(rank);
     }
 
     public Rank get(int index) {
@@ -36,17 +26,12 @@ public class Board {
 
     public void initialize() {
 
-        whitePawnRank = Rank.createWhitePawnRank(whitePawnList);
-        blackPawnRank = Rank.createBlackPawnRank(blackPawnList);
+        whitePawnRank = Rank.createWhitePawnRank(new ArrayList<>());
+        blackPawnRank = Rank.createBlackPawnRank(new ArrayList<>());
 
-        Rank whitePieceRank = new Rank(whitePieceList);
-        Rank blackPieceRank = new Rank(blackPieceList);
+        Rank whitePieceRank = new Rank(new ArrayList<>());
+        Rank blackPieceRank = new Rank(new ArrayList<>());
 
-        Rank blankRank = new Rank(blankList);
-
-        for (int i = 0; i < 8; i++) {
-            blankRank.add(Piece.createBlank());
-        }
 
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
@@ -82,8 +67,11 @@ public class Board {
                 board.get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
                 board.get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
                 board.get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
-                continue;
             } else {
+                Rank blankRank = new Rank(new ArrayList<>());
+                for (int j = 0; j < 8; j++) {
+                    blankRank.add(Piece.createBlank());
+                }
                 board.add(blankRank);
             }
         }
@@ -130,8 +118,8 @@ public class Board {
 
         String[] px_py = pos.split("");
 
-        int pos_y = 8 - Integer.parseInt(px_py[1]);
         int pos_x = px_py[0].charAt(0) - 'a';
+        int pos_y = 8 - Integer.parseInt(px_py[1]);
 
         return board.get(pos_y).get(pos_x);
     }
@@ -145,17 +133,26 @@ public class Board {
     }
 
     public void initializeEmpty() {
+
         board.clear();
 
-        Rank blankRank = new Rank(blankList);
-
         for (int i = 0; i < 8; i++) {
-            blankRank.add(Piece.createBlank());
-        }
-
-        for (int i = 0; i < 8; i++) {
+//            blankList = new ArrayList<>();
+            Rank blankRank = new Rank(new ArrayList<>());
+            for (int j = 0; j < 8; j++) {
+                blankRank.add(Piece.createBlank());
+            }
             board.add(blankRank);
         }
+    }
+
+    public void move(String position, Piece piece) {
+        String[] px_py = position.split("");
+
+        int pos_x = px_py[0].charAt(0) - 'a';
+        int pos_y = 8 - Integer.parseInt(px_py[1]);
+
+        board.get(pos_y).set(pos_x, piece);
     }
 }
 
