@@ -134,4 +134,31 @@ class BoardTest {
         System.out.println(board.showBoard());
     }
 
+    @Test
+    @DisplayName("현재 남아있는 기물에 따른 점수 계산이 가능해야 한다.")
+    public void caculcatePoint() throws Exception {
+
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+        addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN));
+        addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING));
+        addPiece("c8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK));
+
+        addPiece("f2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+        addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+        addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK));
+        addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING));
+
+        assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
+
+        System.out.println(board.showBoard());
+    }
+
+
+    private void addPiece(String position, Piece piece) {
+        board.move(position, piece);
+    }
+
 }
