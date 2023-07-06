@@ -126,6 +126,16 @@ public class Board {
         return this.toString();
     }
 
+    public Piece findPiece(String pos) {
+
+        String[] px_py = pos.split("");
+
+        int pos_y = 8 - Integer.parseInt(px_py[1]);
+        int pos_x = px_py[0].charAt(0) - 'a';
+
+        return board.get(pos_y).get(pos_x);
+    }
+
     @Override
     public String toString() {
 
@@ -133,5 +143,6 @@ public class Board {
                 .map(rank -> rank.isEmpty() ? "........" : rank.representationRank())
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
     }
+
 }
 
