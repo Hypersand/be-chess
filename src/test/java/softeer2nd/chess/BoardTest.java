@@ -156,6 +156,26 @@ class BoardTest {
         System.out.println(board.showBoard());
     }
 
+    @Test
+    @DisplayName("같은 열에 있는 pawn에 대해서는 채점 방식이 달라야 한다.")
+    public void caculcatePawn() throws Exception {
+
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+        addPiece("b3", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+        addPiece("b1", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+
+        addPiece("c3", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+        addPiece("c1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+        addPiece("c6", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+        addPiece("c2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+
+        assertEquals(1.5, board.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(2.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
+
+        System.out.println(board.showBoard());
+    }
 
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
