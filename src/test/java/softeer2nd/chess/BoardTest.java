@@ -5,10 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Piece;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.utils.StringUtils.appendNewLine;
 
@@ -180,5 +179,33 @@ class BoardTest {
     private void addPiece(String position, Piece piece) {
         board.move(position, piece);
     }
+
+    @Test
+    @DisplayName("체스판에 존재하는 흰색, 검정색 기물을 각각 점수가 높은 순으로 정렬")
+    public void sortByDefaultPointDesc() {
+
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+        addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN));
+        addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING));
+        addPiece("c8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK));
+
+        addPiece("f2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+        addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KNIGHT));
+        addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK));
+        addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING));
+
+        List<Piece> whitePieceList = board.getPieceListByColor(Piece.Color.WHITE);
+        List<Piece> blackPieceList = board.getPieceListByColor(Piece.Color.BLACK);
+
+        assertThat(whitePieceList)
+                .isSortedAccordingTo(Comparator.comparing((Piece e) -> e.getType().getDefaultPoint()).reversed());
+
+        assertThat(blackPieceList)
+                .isSortedAccordingTo(Comparator.comparing((Piece e) -> e.getType().getDefaultPoint()).reversed());
+    }
+
+
 
 }
