@@ -7,6 +7,7 @@ import softeer2nd.utils.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Board {
 
@@ -17,6 +18,10 @@ public class Board {
 
     public Board(List<Rank> board) {
         this.board = board;
+    }
+
+    public Stream<Rank> stream() {
+        return board.stream();
     }
 
     public Rank get(int index) {
@@ -70,20 +75,6 @@ public class Board {
         return new Rank(pieces);
     }
 
-    public int pieceCount() {
-
-        return board.stream()
-                .mapToInt(Rank::pieceCount)
-                .sum();
-    }
-
-    public int pieceCount(Color color, Type type) {
-
-        return board.stream()
-                .mapToInt(rank -> rank.pieceCount(color, type))
-                .sum();
-    }
-
     public String getWhitePawnsResult() {
 
         return representationPawnRank(whitePawnRank, Color.WHITE);
@@ -128,40 +119,6 @@ public class Board {
             }
             board.add(blankRank);
         }
-    }
-
-
-    public double calculatePoint(Color color) {
-        return board.stream()
-                .mapToDouble(rank -> rank.calculatePoint(color))
-                .sum() + calculatePawn(color);
-    }
-
-    private double calculatePawn(Color color) {
-
-        double result = 0;
-
-        for (int i = 0; i < 8; i++) {
-            int pawnCount = 0;
-
-            for (int j = 0; j < 8; j++) {
-                Piece piece = board.get(j).get(i);
-
-                if (piece.getType().equals(Type.PAWN) && piece.getColor().equals(color)) {
-                    pawnCount++;
-                }
-            }
-
-            if (pawnCount == 1) {
-                result += 1;
-            }
-
-            if (pawnCount > 1) {
-                result += (pawnCount * 0.5);
-            }
-        }
-
-        return result;
     }
 
     public List<Piece> getPieceListByColor(Color color) {

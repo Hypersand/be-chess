@@ -3,6 +3,7 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.calculator.Calculator;
 import softeer2nd.chess.game.ChessGame;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.view.ChessView;
@@ -18,6 +19,7 @@ class BoardTest {
     private Board board;
     private ChessView view;
     private ChessGame chessGame;
+    private Calculator calculator;
 
     @BeforeEach
     public void setUp() {
@@ -26,12 +28,13 @@ class BoardTest {
         board.initialize();
         view = new ChessView();
         chessGame = new ChessGame(board);
+        calculator = new Calculator(board);
     }
 
     @Test
     public void create() throws Exception {
 
-        assertEquals(64, board.pieceCount());
+        assertEquals(64, calculator.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
                         appendNewLine("RNBQKBNR") +
@@ -100,19 +103,19 @@ class BoardTest {
     @DisplayName("기물의 색과 종류로 기물의 개수를 반환한다.")
     public void getPieceCountByColorAndType() {
 
-        assertEquals(32, board.pieceCount(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE));
-        assertEquals(8, board.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN));
-        assertEquals(8, board.pieceCount(Piece.Color.BLACK, Piece.Type.PAWN));
-        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.ROOK));
-        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.ROOK));
-        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.BISHOP));
-        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.BISHOP));
-        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT));
-        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.KNIGHT));
-        assertEquals(1, board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN));
-        assertEquals(1, board.pieceCount(Piece.Color.BLACK, Piece.Type.QUEEN));
-        assertEquals(1, board.pieceCount(Piece.Color.WHITE, Piece.Type.KING));
-        assertEquals(1, board.pieceCount(Piece.Color.BLACK, Piece.Type.KING));
+        assertEquals(32, calculator.pieceCount(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE));
+        assertEquals(8, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN));
+        assertEquals(8, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.PAWN));
+        assertEquals(2, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.ROOK));
+        assertEquals(2, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.ROOK));
+        assertEquals(2, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.BISHOP));
+        assertEquals(2, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.BISHOP));
+        assertEquals(2, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT));
+        assertEquals(2, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.KNIGHT));
+        assertEquals(1, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN));
+        assertEquals(1, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.QUEEN));
+        assertEquals(1, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.KING));
+        assertEquals(1, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.KING));
     }
 
     @Test
@@ -155,8 +158,8 @@ class BoardTest {
         addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK));
         addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING));
 
-        assertEquals(15.0, board.calculatePoint(Piece.Color.BLACK), 0.01);
-        assertEquals(7.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(15.0, calculator.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(7.0, calculator.calculatePoint(Piece.Color.WHITE), 0.01);
 
         view.print(board);
     }
@@ -176,8 +179,8 @@ class BoardTest {
         addPiece("c6", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
         addPiece("c2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
 
-        assertEquals(1.5, board.calculatePoint(Piece.Color.BLACK), 0.01);
-        assertEquals(2.0, board.calculatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(1.5, calculator.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(2.0, calculator.calculatePoint(Piece.Color.WHITE), 0.01);
 
         view.print(board);
     }
