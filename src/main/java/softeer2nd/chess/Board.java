@@ -99,14 +99,6 @@ public class Board {
         return pawnRank.representationPawnRank(color);
     }
 
-    public void print() {
-        System.out.println(this);
-    }
-
-    public String showBoard() {
-        return this.toString();
-    }
-
     public Piece findPiece(String pos) {
 
         String[] px_py = pos.split("");
