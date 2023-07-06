@@ -154,5 +154,11 @@ public class Board {
 
         board.get(pos_y).set(pos_x, piece);
     }
+
+    public double calculatePoint(Color color) {
+        return board.stream()
+                .mapToDouble(rank -> rank.calculatePoint(color))
+                .sum();
+    }
 }
 
