@@ -1,14 +1,40 @@
 package softeer2nd.chess;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Position {
 
-    private final String position;
+    private final int x;
+    private final int y;
 
     public Position(String position) {
-        this.position = position;
+
+        Map<String, Integer> posMap = calculatePosition(position);
+
+        this.x = posMap.get("x");
+        this.y = posMap.get("y");
     }
 
-    public String getPosition() {
-        return position;
+    private Map<String, Integer> calculatePosition(String position) {
+
+        Map<String, Integer> map = new HashMap<>();
+
+        String[] px_py = position.split("");
+        int pos_x = px_py[0].charAt(0) - 'a';
+        int pos_y = 8 - Integer.parseInt(px_py[1]);
+
+        map.put("x", pos_x);
+        map.put("y", pos_y);
+
+        return map;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
