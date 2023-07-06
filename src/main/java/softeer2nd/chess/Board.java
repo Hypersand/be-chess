@@ -158,7 +158,34 @@ public class Board {
     public double calculatePoint(Color color) {
         return board.stream()
                 .mapToDouble(rank -> rank.calculatePoint(color))
-                .sum();
+                .sum() + calculatePawn(color);
+    }
+
+    private double calculatePawn(Color color) {
+
+        double result = 0;
+
+        for (int i = 0; i < 8; i++) {
+            int pawnCount = 0;
+
+            for (int j = 0; j < 8; j++) {
+                Piece piece = board.get(j).get(i);
+
+                if (piece.getType().equals(Type.PAWN) && piece.getColor().equals(color)) {
+                    pawnCount++;
+                }
+            }
+
+            if (pawnCount == 1) {
+                result += 1;
+            }
+
+            if (pawnCount > 1) {
+                result += (pawnCount * 0.5);
+            }
+        }
+
+        return result;
     }
 }
 

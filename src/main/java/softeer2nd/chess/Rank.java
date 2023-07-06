@@ -81,7 +81,7 @@ public class Rank {
 
     public double calculatePoint(Color color) {
         return rank.stream()
-                .filter(piece -> piece.getColor().equals(color))
+                .filter(piece -> piece.getColor().equals(color) && !piece.getType().equals(Type.PAWN))
                 .mapToDouble(piece -> piece.getType().getDefaultPoint())
                 .sum();
     }
