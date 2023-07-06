@@ -1,5 +1,7 @@
 package softeer2nd.chess.pieces;
 
+import softeer2nd.chess.Position;
+
 import java.util.Objects;
 
 public class Piece {
@@ -35,7 +37,18 @@ public class Piece {
         return new Piece(color, type);
     }
 
+    public static Piece createPiece(Color color, Type type, Position position) {
+        return new Piece(color, type);
+    }
+
     public static Piece createBlank() {
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
+    }
+
+    public static Piece createBlank(Position position) {
+//        String[] px_py = position.getPosition().split("");
+//        int pos_x = px_py[0].charAt(0) - 'a';
+//        int pos_y = 8 - Integer.parseInt(px_py[1]);
         return new Piece(Color.NOCOLOR, Type.NO_PIECE);
     }
 
