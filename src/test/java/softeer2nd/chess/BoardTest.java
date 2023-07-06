@@ -110,4 +110,14 @@ class BoardTest {
         assertEquals(1, board.pieceCount(Piece.Color.BLACK, Piece.Type.KING));
     }
 
+    @Test
+    @DisplayName("특정 위치의 기물을 반환해야 한다.")
+    public void findPiece() throws Exception {
+
+        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK), board.findPiece("a8"));
+        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK), board.findPiece("h8"));
+        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK), board.findPiece("a1"));
+        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK), board.findPiece("h1"));
+    }
+
 }
