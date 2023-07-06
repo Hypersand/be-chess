@@ -5,10 +5,7 @@ import softeer2nd.chess.pieces.Piece.Color;
 import softeer2nd.chess.pieces.Piece.Type;
 import softeer2nd.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -31,21 +28,9 @@ public class Board {
         whitePawnRank = Rank.createWhitePawnRank(new ArrayList<>());
         blackPawnRank = Rank.createBlackPawnRank(new ArrayList<>());
 
-        Rank whitePieceRank = new Rank(new ArrayList<>());
-        Rank blackPieceRank = new Rank(new ArrayList<>());
-
-
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
-                board.add(blackPieceRank);
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.QUEEN));
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.KING));
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.BISHOP));
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.KNIGHT));
-                board.get(0).add(Piece.createPiece(Color.BLACK, Type.ROOK));
+                board.add(createPieceRank(Color.BLACK));
                 continue;
             }
 
@@ -60,15 +45,7 @@ public class Board {
             }
 
             if (i == 7) {
-                board.add(whitePieceRank);
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.QUEEN));
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.KING));
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.BISHOP));
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.KNIGHT));
-                board.get(7).add(Piece.createPiece(Color.WHITE, Type.ROOK));
+                board.add(createPieceRank(Color.WHITE));
             } else {
                 Rank blankRank = new Rank(new ArrayList<>());
                 for (int j = 0; j < 8; j++) {
@@ -77,6 +54,20 @@ public class Board {
                 board.add(blankRank);
             }
         }
+    }
+
+    private Rank createPieceRank(Color color) {
+        List<Piece> pieces = Arrays.asList(
+                Piece.createPiece(color, Type.ROOK),
+                Piece.createPiece(color, Type.KNIGHT),
+                Piece.createPiece(color, Type.BISHOP),
+                Piece.createPiece(color, Type.QUEEN),
+                Piece.createPiece(color, Type.KING),
+                Piece.createPiece(color, Type.BISHOP),
+                Piece.createPiece(color, Type.KNIGHT),
+                Piece.createPiece(color, Type.ROOK)
+        );
+        return new Rank(pieces);
     }
 
     public int pieceCount() {
@@ -139,7 +130,6 @@ public class Board {
         board.clear();
 
         for (int i = 0; i < 8; i++) {
-//            blankList = new ArrayList<>();
             Rank blankRank = new Rank(new ArrayList<>());
             for (int j = 0; j < 8; j++) {
                 blankRank.add(Piece.createBlank());
@@ -192,16 +182,10 @@ public class Board {
 
     public List<Piece> getPieceListByColor(Color color) {
 
-        List<Piece> pieceList = new ArrayList<>();
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Piece piece = board.get(i).get(j);
-                if (piece.getColor().equals(color)) {
-                    pieceList.add(piece);
-                }
-            }
-        }
+        List<Piece> pieceList = board.stream()
+                .flatMap(rank -> rank.getPieces().stream())
+                .filter(piece -> piece.getColor().equals(color))
+                .collect(Collectors.toList());
 
         sortByPointDesc(pieceList);
 
@@ -209,13 +193,7 @@ public class Board {
     }
 
     public void sortByPointDesc(List<Piece> pieceList) {
-
-        Collections.sort(pieceList, new Comparator<Piece>() {
-            @Override
-            public int compare(Piece p1, Piece p2) {
-                return (int) (p2.getType().getDefaultPoint() - p1.getType().getDefaultPoint());
-            }
-        });
+        pieceList.sort(Comparator.comparingDouble((Piece p) -> p.getType().getDefaultPoint()).reversed());
     }
 }
 

@@ -4,6 +4,7 @@ import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
 import softeer2nd.chess.pieces.Piece.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +85,10 @@ public class Rank {
                 .filter(piece -> piece.getColor().equals(color) && !piece.getType().equals(Type.PAWN))
                 .mapToDouble(piece -> piece.getType().getDefaultPoint())
                 .sum();
+    }
+
+    public List<Piece> getPieces() {
+        return new ArrayList<>(rank);
     }
 
 }
