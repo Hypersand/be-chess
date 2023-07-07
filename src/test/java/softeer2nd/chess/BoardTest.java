@@ -124,10 +124,14 @@ class BoardTest {
     @DisplayName("특정 위치의 기물을 반환해야 한다.")
     public void findPiece() throws Exception {
 
-        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("a8")), board.findPiece("a8"));
-        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("h8")), board.findPiece("h8"));
-        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("a1")), board.findPiece("a1"));
-        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("h1")), board.findPiece("h1"));
+        assertThat(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("a8")))
+                .isEqualToComparingFieldByFieldRecursively(board.findPiece("a8"));
+        assertThat(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("h8")))
+                .isEqualToComparingFieldByFieldRecursively(board.findPiece("h8"));
+        assertThat(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("a1")))
+                .isEqualToComparingFieldByFieldRecursively(board.findPiece("a1"));
+        assertThat(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("h1")))
+                .isEqualToComparingFieldByFieldRecursively(board.findPiece("h1"));
     }
 
     @Test
