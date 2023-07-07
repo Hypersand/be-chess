@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.calculator.Calculator;
+import softeer2nd.chess.exception.InvalidMovementException;
+import softeer2nd.chess.exception.InvalidPositionException;
+import softeer2nd.chess.exception.InvalidSameColorException;
 import softeer2nd.chess.game.ChessGame;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.view.ChessView;
@@ -234,6 +237,66 @@ class BoardTest {
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece(sourcePosition));
         assertThat(Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(targetPosition)))
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece(targetPosition));
+    }
+
+    @Test
+    @DisplayName("king은 어느 방향이나 한 칸을 움직일 수 있다.")
+    public void king_move() {
+
+        //given
+        String sourcePosition = "e1";
+        String[] targetPositions = new String[]{"d1", "e2", "f1"};
+        Piece piece = Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING, new Position(sourcePosition));
+
+        //when
+        chessGame.move(sourcePosition, targetPositions[0]);
+
+        //then
+//        assertThat()
+
+    }
+
+    @Test
+    @DisplayName("체스판 밖으로 움직이면 예외 발생")
+    public void piece_moveOut_board() {
+
+        //given
+        String sourcePosition = "e1";
+        String targetPosition = "e0";
+
+        //when,then
+        assertThatThrownBy(() -> chessGame.kingMove(sourcePosition,targetPosition))
+                .isInstanceOf(InvalidPositionException.class)
+                .hasMessage("체스판 위에 말을 배치해 주세요!");
+
+    }
+
+    @Test
+    @DisplayName("king이 한 칸 이상을 움직이면 예외 발생")
+    public void king_move_exception() {
+        //given
+        String sourcePosition = "e1";
+        String targetPosition = "e3";
+
+        //when,then
+        assertThatThrownBy(() -> chessGame.kingMove(sourcePosition,targetPosition))
+                .isInstanceOf(InvalidMovementException.class)
+                .hasMessage("킹은 한 칸만 이동할 수 있습니다.");
+
+    }
+
+    @Test
+    @DisplayName("같은 색 말의 위치로 움직이면 예외 발생")
+    public void king_move_same_color() {
+        //given
+        String sourcePosition = "e1";
+        String targetPosition = "d1";
+
+
+        //when,then
+        assertThatThrownBy(() -> chessGame.kingMove(sourcePosition,targetPosition))
+                .isInstanceOf(InvalidSameColorException.class)
+                .hasMessage("같은 색 말 위로 이동할 수 없습니다!");
     }
 
 }
