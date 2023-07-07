@@ -38,6 +38,12 @@ public class ChessSimulator {
                 view.print(board);
             }
 
+            if (next.startsWith("kingMove")) {
+                String[] input = next.split(" ");
+                chessGame.kingMove(input[1], input[2]);
+                view.print(board);
+            }
+
         }
 
     }
