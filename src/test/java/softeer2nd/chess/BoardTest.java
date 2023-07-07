@@ -1,5 +1,6 @@
 package softeer2nd.chess;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import softeer2nd.chess.view.ChessView;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.utils.StringUtils.appendNewLine;
@@ -122,10 +124,10 @@ class BoardTest {
     @DisplayName("특정 위치의 기물을 반환해야 한다.")
     public void findPiece() throws Exception {
 
-        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK), board.findPiece("a8"));
-        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK), board.findPiece("h8"));
-        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK), board.findPiece("a1"));
-        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK), board.findPiece("h1"));
+        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("a8")), board.findPiece("a8"));
+        assertEquals(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("h8")), board.findPiece("h8"));
+        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("a1")), board.findPiece("a1"));
+        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("h1")), board.findPiece("h1"));
     }
 
     @Test
@@ -135,7 +137,7 @@ class BoardTest {
         board.initializeEmpty();
 
         String position = "b5";
-        Piece piece = Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK);
+        Piece piece = Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position(position));
         chessGame.move(position, piece);
 
         assertEquals(piece, board.findPiece(position));
@@ -148,15 +150,15 @@ class BoardTest {
 
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
-        addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN));
-        addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING));
-        addPiece("c8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK));
+        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b6")));
+        addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN, new Position("e6")));
+        addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING, new Position("b8")));
+        addPiece("c8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("c8")));
 
-        addPiece("f2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
-        addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
-        addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK));
-        addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING));
+        addPiece("f2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("f2")));
+        addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("g2")));
+        addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("e1")));
+        addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING, new Position("f1")));
 
         assertEquals(15.0, calculator.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(7.0, calculator.calculatePoint(Piece.Color.WHITE), 0.01);
@@ -170,14 +172,14 @@ class BoardTest {
 
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
-        addPiece("b3", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
-        addPiece("b1", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
+        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b6")));
+        addPiece("b3", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b3")));
+        addPiece("b1", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b1")));
 
-        addPiece("c3", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
-        addPiece("c1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
-        addPiece("c6", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
-        addPiece("c2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
+        addPiece("c3", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c3")));
+        addPiece("c1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c1")));
+        addPiece("c6", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c6")));
+        addPiece("c2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c2")));
 
         assertEquals(1.5, calculator.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(2.0, calculator.calculatePoint(Piece.Color.WHITE), 0.01);
@@ -195,15 +197,15 @@ class BoardTest {
 
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN));
-        addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN));
-        addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING));
-        addPiece("c8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK));
+        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b6")));
+        addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN, new Position("e6")));
+        addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING, new Position("b8")));
+        addPiece("c8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("c8")));
 
-        addPiece("f2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN));
-        addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KNIGHT));
-        addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK));
-        addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING));
+        addPiece("f2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("f2")));
+        addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KNIGHT, new Position("g2")));
+        addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("e1")));
+        addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING, new Position("f1")));
 
         List<Piece> whitePieceList = board.getPieceListByColor(Piece.Color.WHITE);
         List<Piece> blackPieceList = board.getPieceListByColor(Piece.Color.BLACK);
@@ -224,8 +226,10 @@ class BoardTest {
         String sourcePosition = "b2";
         String targetPosition = "b3";
         chessGame.move(sourcePosition, targetPosition);
-        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(targetPosition)), board.findPiece(targetPosition));
+        assertThat(Piece.createBlank(new Position(sourcePosition)))
+                .isEqualToComparingFieldByFieldRecursively(board.findPiece(sourcePosition));
+        assertThat(Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(targetPosition)))
+                .isEqualToComparingFieldByFieldRecursively(board.findPiece(targetPosition));
     }
 
 }
