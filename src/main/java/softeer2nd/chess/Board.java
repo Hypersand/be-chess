@@ -2,10 +2,11 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
-import softeer2nd.chess.pieces.Piece.Type;
 import softeer2nd.utils.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,7 +36,7 @@ public class Board {
 
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
-                board.add(createPieceRank(Color.BLACK));
+                board.add(Rank.createPieceRank(Color.BLACK));
                 continue;
             }
 
@@ -50,7 +51,7 @@ public class Board {
             }
 
             if (i == 7) {
-                board.add(createPieceRank(Color.WHITE));
+                board.add(Rank.createPieceRank(Color.WHITE));
             } else {
                 Rank blankRank = new Rank(new ArrayList<>());
                 for (int j = 0; j < 8; j++) {
@@ -68,39 +69,6 @@ public class Board {
         int pos_y = 8 - y;
 
         return String.valueOf(pos_x) + pos_y;
-    }
-
-    private Rank createPieceRank(Color color) {
-
-        List<Piece> pieces;
-
-        if (color.equals(Color.WHITE)) {
-            pieces = Arrays.asList(
-                    Piece.createPiece(color, Type.ROOK, new Position("a1")),
-                    Piece.createPiece(color, Type.KNIGHT, new Position("b1")),
-                    Piece.createPiece(color, Type.BISHOP, new Position("c1")),
-                    Piece.createPiece(color, Type.QUEEN, new Position("d1")),
-                    Piece.createPiece(color, Type.KING, new Position("e1")),
-                    Piece.createPiece(color, Type.BISHOP, new Position("f1")),
-                    Piece.createPiece(color, Type.KNIGHT, new Position("g1")),
-                    Piece.createPiece(color, Type.ROOK, new Position("h1"))
-            );
-        }
-
-        else {
-            pieces = Arrays.asList(
-                    Piece.createPiece(color, Type.ROOK, new Position("a8")),
-                    Piece.createPiece(color, Type.KNIGHT, new Position("b8")),
-                    Piece.createPiece(color, Type.BISHOP, new Position("c8")),
-                    Piece.createPiece(color, Type.QUEEN, new Position("d8")),
-                    Piece.createPiece(color, Type.KING, new Position("e8")),
-                    Piece.createPiece(color, Type.BISHOP, new Position("f8")),
-                    Piece.createPiece(color, Type.KNIGHT, new Position("g8")),
-                    Piece.createPiece(color, Type.ROOK, new Position("h8"))
-            );
-        }
-
-        return new Rank(pieces);
     }
 
     public String getWhitePawnsResult() {
@@ -131,6 +99,7 @@ public class Board {
     @Override
     public String toString() {
 
+        //StringBuilder 사용해보기
         return board.stream()
                 .map(rank -> rank.isEmpty() ? "........" : rank.representationRank())
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;

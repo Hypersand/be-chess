@@ -5,6 +5,7 @@ import softeer2nd.chess.pieces.Piece.Color;
 import softeer2nd.chess.pieces.Piece.Type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,39 @@ public class Rank {
 
     public boolean isEmpty() {
         return rank.size() == 0;
+    }
+
+    public static Rank createPieceRank(Color color) {
+
+        List<Piece> pieces;
+
+        if (color.equals(Color.WHITE)) {
+            pieces = Arrays.asList(
+                    Piece.createPiece(color, Type.ROOK, new Position("a1")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("b1")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("c1")),
+                    Piece.createPiece(color, Type.QUEEN, new Position("d1")),
+                    Piece.createPiece(color, Type.KING, new Position("e1")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("f1")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("g1")),
+                    Piece.createPiece(color, Type.ROOK, new Position("h1"))
+            );
+        }
+
+        else {
+            pieces = Arrays.asList(
+                    Piece.createPiece(color, Type.ROOK, new Position("a8")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("b8")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("c8")),
+                    Piece.createPiece(color, Type.QUEEN, new Position("d8")),
+                    Piece.createPiece(color, Type.KING, new Position("e8")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("f8")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("g8")),
+                    Piece.createPiece(color, Type.ROOK, new Position("h8"))
+            );
+        }
+
+        return new Rank(pieces);
     }
 
     public static Rank createWhitePawnRank(List<Piece> whitePawns) {
