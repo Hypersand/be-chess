@@ -244,15 +244,17 @@ class BoardTest {
     public void king_move() {
 
         //given
-        String sourcePosition = "e1";
-        String[] targetPositions = new String[]{"d1", "e2", "f1"};
-        Piece piece = Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING, new Position(sourcePosition));
+        board.initializeEmpty();
+        String sourcePosition = "b5";
+        Piece king = Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING, new Position(sourcePosition));
+        addPiece("b5", king);
+        String[] targetPositions = new String[]{"b4", "b3", "a5", "c5"};
 
         //when
-        chessGame.move(sourcePosition, targetPositions[0]);
+        chessGame.kingMove(sourcePosition, targetPositions[0]);
 
         //then
-//        assertThat()
+
 
     }
 
