@@ -54,24 +54,52 @@ public class Board {
             } else {
                 Rank blankRank = new Rank(new ArrayList<>());
                 for (int j = 0; j < 8; j++) {
-                    blankRank.add(Piece.createBlank());
+                    String position = changePosToString(j, i);
+                    blankRank.add(Piece.createBlank(new Position(position)));
                 }
                 board.add(blankRank);
             }
         }
     }
 
+    private String changePosToString(int x, int y) {
+
+        char pos_x = (char) ('a' + x);
+        int pos_y = 8 - y;
+
+        return String.valueOf(pos_x) + pos_y;
+    }
+
     private Rank createPieceRank(Color color) {
-        List<Piece> pieces = Arrays.asList(
-                Piece.createPiece(color, Type.ROOK),
-                Piece.createPiece(color, Type.KNIGHT),
-                Piece.createPiece(color, Type.BISHOP),
-                Piece.createPiece(color, Type.QUEEN),
-                Piece.createPiece(color, Type.KING),
-                Piece.createPiece(color, Type.BISHOP),
-                Piece.createPiece(color, Type.KNIGHT),
-                Piece.createPiece(color, Type.ROOK)
-        );
+
+        List<Piece> pieces;
+
+        if (color.equals(Color.WHITE)) {
+            pieces = Arrays.asList(
+                    Piece.createPiece(color, Type.ROOK, new Position("a1")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("b1")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("c1")),
+                    Piece.createPiece(color, Type.QUEEN, new Position("d1")),
+                    Piece.createPiece(color, Type.KING, new Position("e1")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("f1")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("g1")),
+                    Piece.createPiece(color, Type.ROOK, new Position("h1"))
+            );
+        }
+
+        else {
+            pieces = Arrays.asList(
+                    Piece.createPiece(color, Type.ROOK, new Position("a8")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("b8")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("c8")),
+                    Piece.createPiece(color, Type.QUEEN, new Position("d8")),
+                    Piece.createPiece(color, Type.KING, new Position("e8")),
+                    Piece.createPiece(color, Type.BISHOP, new Position("f8")),
+                    Piece.createPiece(color, Type.KNIGHT, new Position("g8")),
+                    Piece.createPiece(color, Type.ROOK, new Position("h8"))
+            );
+        }
+
         return new Rank(pieces);
     }
 
@@ -115,7 +143,8 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             Rank blankRank = new Rank(new ArrayList<>());
             for (int j = 0; j < 8; j++) {
-                blankRank.add(Piece.createBlank());
+                String position = changePosToString(j, i);
+                blankRank.add(Piece.createBlank(new Position(position)));
             }
             board.add(blankRank);
         }
