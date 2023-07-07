@@ -28,6 +28,10 @@ public class Piece {
         return position;
     }
 
+    public void movePosition(String position) {
+        this.position.movePosition(position);
+    }
+
     public char getRepresentation() {
         return type.getRepresentation(getColor());
     }
@@ -86,7 +90,7 @@ public class Piece {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
-        return color == piece.color && type == piece.type;
+        return color == piece.color && type == piece.type && position == piece.position;
     }
 
     @Override

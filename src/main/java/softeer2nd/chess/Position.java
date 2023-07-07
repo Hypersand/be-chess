@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Position {
 
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
 
     public Position(String position) {
 
@@ -37,4 +37,13 @@ public class Position {
     public int getY() {
         return y;
     }
+
+
+
+    public void movePosition(String position) {
+        Map<String, Integer> posMap = calculatePosition(position);
+        this.x = posMap.get("x");
+        this.y = posMap.get("y");
+    }
+
 }

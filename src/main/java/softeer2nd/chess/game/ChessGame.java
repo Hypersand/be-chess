@@ -1,6 +1,7 @@
 package softeer2nd.chess.game;
 
 import softeer2nd.chess.Board;
+import softeer2nd.chess.Position;
 import softeer2nd.chess.pieces.Piece;
 
 public class ChessGame {
@@ -30,8 +31,10 @@ public class ChessGame {
         int pos_x_target = px_py_target[0].charAt(0) - 'a';
         int pos_y_target = 8 - Integer.parseInt(px_py_target[1]);
 
+        Piece piece = board.findPiece(sourcePosition);
         board.get(pos_y_target).set(pos_x_target, board.findPiece(sourcePosition));
-        board.get(pos_y_source).set(pos_x_source, Piece.createBlank());
+        piece.movePosition(targetPosition);
+        board.get(pos_y_source).set(pos_x_source, Piece.createBlank(new Position(sourcePosition)));
     }
 
 }
