@@ -63,7 +63,9 @@ public class Rank {
         Rank whitePawnRank = new Rank(whitePawns);
 
         for (int i = 0; i < 8; i++) {
-            whitePawnRank.add(Piece.createPiece(Color.WHITE, Type.PAWN));
+            // a2,b2,c2,.....
+            String position = String.valueOf((char) ('a' + i)) + (2);
+            whitePawnRank.add(Piece.createPiece(Color.WHITE, Type.PAWN, new Position(position)));
         }
 
         return whitePawnRank;
@@ -74,7 +76,8 @@ public class Rank {
         Rank blackPawnRank = new Rank(blackPawns);
 
         for (int i = 0; i < 8; i++) {
-            blackPawnRank.add(Piece.createPiece(Color.BLACK, Type.PAWN));
+            String position = String.valueOf((char) ('a' + i)) + (7);
+            blackPawnRank.add(Piece.createPiece(Color.BLACK, Type.PAWN, new Position(position)));
         }
 
         return blackPawnRank;
