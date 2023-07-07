@@ -25,6 +25,18 @@ public class ChessGame {
         board.get(posMap.get("y")).set(posMap.get("x"), piece);
     }
 
+    private Map<String, Integer> getPosition(String position) {
+        String[] positions = position.split("");
+        int pos_x = positions[0].charAt(0) - 'a';
+        int pos_y = 8 - Integer.parseInt(positions[1]);
+
+        Map<String, Integer> posMap = new HashMap<>();
+        posMap.put("x", pos_x);
+        posMap.put("y", pos_y);
+
+        return posMap;
+    }
+
     public void move(String sourcePosition, String targetPosition) {
 
         Map<String, Integer> sourcePosMap = getPosition(sourcePosition);
@@ -56,8 +68,8 @@ public class ChessGame {
                 && Math.abs(sourcePosMap.get("y") - targetPosMap.get("y")) <= 1) {
             return;
         }
-
         throw new InvalidMovementException("킹은 한 칸만 이동할 수 있습니다.");
+
     }
 
     private void validateTargetPosition(Map<String, Integer> targetPosMap, Color color) {
@@ -75,20 +87,15 @@ public class ChessGame {
         if (targetPiece.getColor().equals(color)) {
             throw new InvalidSameColorException("같은 색 말 위로 이동할 수 없습니다!");
         }
+    }
+
+    private void queenMove(String sourcePosition, String targetPosition) {
 
 
     }
 
-    private Map<String, Integer> getPosition(String position) {
-        String[] positions = position.split("");
-        int pos_x = positions[0].charAt(0) - 'a';
-        int pos_y = 8 - Integer.parseInt(positions[1]);
+    private void validateQueenMovement() {
 
-        Map<String, Integer> posMap = new HashMap<>();
-        posMap.put("x", pos_x);
-        posMap.put("y", pos_y);
-
-        return posMap;
     }
 
 }

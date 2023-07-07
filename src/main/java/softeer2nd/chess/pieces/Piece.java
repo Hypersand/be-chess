@@ -24,14 +24,11 @@ public class Piece {
         return type;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     public void movePosition(String position) {
         this.position.movePosition(position);
     }
 
+    //??
     public char getRepresentation() {
         return type.getRepresentation(getColor());
     }
@@ -56,6 +53,7 @@ public class Piece {
         WHITE, BLACK, NOCOLOR;
     }
 
+    //enum은 맨 위에
     public enum Type {
         PAWN('p', 1.0),
         ROOK('r', 5.0),
@@ -76,6 +74,7 @@ public class Piece {
             return defaultPoint;
         }
 
+        //여기 ㅣㅇㅆ는게 맞나??
         public char getRepresentation(Color color) {
             if (color.equals(Color.WHITE)) {
                 return representation;
