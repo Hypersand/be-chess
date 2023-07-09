@@ -12,8 +12,10 @@ import java.util.stream.Collectors;
 
 public class Rank {
 
-    //Rank의 조건
-    //하나의 Rank에 8개의 값 밖에 못 들어 간다.
+    public static final int WHITE_PAWN_RANK = 2;
+    public static final int BLACK_PAWN_RANK = 7;
+    public static final int RANK_MAX_LENGTH = 8;
+
     private final List<Piece> rank;
 
     public Rank(List<Piece> rank) {
@@ -24,8 +26,8 @@ public class Rank {
         rank.add(piece);
     }
 
-    public Piece get(int pos) {
-        return rank.get(pos);
+    public Piece get(int index) {
+        return rank.get(index);
     }
 
     public void set(int index, Piece piece) {
@@ -33,18 +35,22 @@ public class Rank {
     }
 
     public int pieceCount() {
-        return (int) rank.stream().count();
+        return rank.size();
+    }
+
+    public boolean isEmpty() {
+        return rank.size() == 0;
     }
 
     public int pieceCount(Color color, Type type) {
         return (int) rank.stream()
-                .filter(piece -> piece.getColor().equals(color) && piece.getType().equals(type))
+                .filter(piece -> isPieceColorEquals(color, piece) && isPieceTypeEquals(type, piece))
                 .count();
     }
 
     public String representationPawnRank(Color color) {
         return rank.stream()
-                .filter(piece -> piece.getColor().equals(color))
+                .filter(piece -> isPieceColorEquals(color, piece))
                 .map(piece -> String.valueOf(piece.getRepresentation()))
                 .collect(Collectors.joining());
     }
@@ -53,10 +59,6 @@ public class Rank {
         return rank.stream()
                 .map(piece -> String.valueOf(piece.getRepresentation()))
                 .collect(Collectors.joining());
-    }
-
-    public boolean isEmpty() {
-        return rank.size() == 0;
     }
 
     public static Rank createPieceRank(Color color) {
@@ -96,9 +98,8 @@ public class Rank {
 
         Rank whitePawnRank = new Rank(whitePawns);
 
-        for (int i = 0; i < 8; i++) {
-            // a2,b2,c2,.....
-            String position = String.valueOf((char) ('a' + i)) + (2);
+        for (int i = 0; i < RANK_MAX_LENGTH; i++) {
+            String position = String.valueOf((char) ('a' + i)) + WHITE_PAWN_RANK;
             whitePawnRank.add(Piece.createPiece(Color.WHITE, Type.PAWN, new Position(position)));
         }
 
@@ -109,8 +110,8 @@ public class Rank {
 
         Rank blackPawnRank = new Rank(blackPawns);
 
-        for (int i = 0; i < 8; i++) {
-            String position = String.valueOf((char) ('a' + i)) + (7);
+        for (int i = 0; i < RANK_MAX_LENGTH; i++) {
+            String position = String.valueOf((char) ('a' + i)) + BLACK_PAWN_RANK;
             blackPawnRank.add(Piece.createPiece(Color.BLACK, Type.PAWN, new Position(position)));
         }
 
@@ -119,13 +120,21 @@ public class Rank {
 
     public double calculatePoint(Color color) {
         return rank.stream()
-                .filter(piece -> piece.getColor().equals(color) && !piece.getType().equals(Type.PAWN))
+                .filter(piece -> isPieceColorEquals(color, piece) && !isPieceTypeEquals(Type.PAWN, piece))
                 .mapToDouble(piece -> piece.getType().getDefaultPoint())
                 .sum();
     }
 
     public List<Piece> getPieces() {
         return new ArrayList<>(rank);
+    }
+
+    private boolean isPieceColorEquals(Color color, Piece piece) {
+        return piece.getColor().equals(color);
+    }
+
+    private boolean isPieceTypeEquals(Type type, Piece piece) {
+        return piece.getType().equals(type);
     }
 
 }
