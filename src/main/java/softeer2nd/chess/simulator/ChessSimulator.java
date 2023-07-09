@@ -1,4 +1,4 @@
-package softeer2nd;
+package softeer2nd.chess.simulator;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.game.ChessGame;
