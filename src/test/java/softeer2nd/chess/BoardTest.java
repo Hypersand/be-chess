@@ -1,10 +1,8 @@
 package softeer2nd.chess;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.calculator.Calculator;
 import softeer2nd.chess.exception.InvalidMovementException;
 import softeer2nd.chess.exception.InvalidPositionException;
 import softeer2nd.chess.exception.InvalidSameColorException;
@@ -12,10 +10,12 @@ import softeer2nd.chess.game.ChessGame;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.view.ChessView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.utils.StringUtils.appendNewLine;
 
@@ -24,7 +24,6 @@ class BoardTest {
     private Board board;
     private ChessView view;
     private ChessGame chessGame;
-    private Calculator calculator;
 
     @BeforeEach
     public void setUp() {
@@ -33,13 +32,12 @@ class BoardTest {
         board.initialize();
         view = new ChessView();
         chessGame = new ChessGame(board);
-        calculator = new Calculator(board);
     }
 
     @Test
     public void create() throws Exception {
 
-        assertEquals(64, calculator.pieceCount());
+        assertEquals(64, board.pieceCount());
         String blankRank = appendNewLine("........");
         assertEquals(
                         appendNewLine("RNBQKBNR") +
@@ -108,19 +106,19 @@ class BoardTest {
     @DisplayName("기물의 색과 종류로 기물의 개수를 반환한다.")
     public void getPieceCountByColorAndType() {
 
-        assertEquals(32, calculator.pieceCount(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE));
-        assertEquals(8, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN));
-        assertEquals(8, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.PAWN));
-        assertEquals(2, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.ROOK));
-        assertEquals(2, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.ROOK));
-        assertEquals(2, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.BISHOP));
-        assertEquals(2, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.BISHOP));
-        assertEquals(2, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT));
-        assertEquals(2, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.KNIGHT));
-        assertEquals(1, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN));
-        assertEquals(1, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.QUEEN));
-        assertEquals(1, calculator.pieceCount(Piece.Color.WHITE, Piece.Type.KING));
-        assertEquals(1, calculator.pieceCount(Piece.Color.BLACK, Piece.Type.KING));
+        assertEquals(32, board.pieceCount(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE));
+        assertEquals(8, board.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN));
+        assertEquals(8, board.pieceCount(Piece.Color.BLACK, Piece.Type.PAWN));
+        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.ROOK));
+        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.ROOK));
+        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.BISHOP));
+        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.BISHOP));
+        assertEquals(2, board.pieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT));
+        assertEquals(2, board.pieceCount(Piece.Color.BLACK, Piece.Type.KNIGHT));
+        assertEquals(1, board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN));
+        assertEquals(1, board.pieceCount(Piece.Color.BLACK, Piece.Type.QUEEN));
+        assertEquals(1, board.pieceCount(Piece.Color.WHITE, Piece.Type.KING));
+        assertEquals(1, board.pieceCount(Piece.Color.BLACK, Piece.Type.KING));
     }
 
     @Test
@@ -156,19 +154,10 @@ class BoardTest {
     public void caculcatePoint() throws Exception {
 
         board.initializeEmpty();
+        addPiecesOnBoard();
 
-        addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b6")));
-        addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN, new Position("e6")));
-        addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING, new Position("b8")));
-        addPiece("c8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("c8")));
-
-        addPiece("f2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("f2")));
-        addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("g2")));
-        addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("e1")));
-        addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING, new Position("f1")));
-
-        assertEquals(15.0, calculator.calculatePoint(Piece.Color.BLACK), 0.01);
-        assertEquals(7.0, calculator.calculatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(15.0, chessGame.calculatePoint(Piece.Color.BLACK), 0.01);
+        assertEquals(8.5, chessGame.calculatePoint(Piece.Color.WHITE), 0.01);
 
         view.print(board);
     }
@@ -178,18 +167,11 @@ class BoardTest {
     public void caculcatePawn() throws Exception {
 
         board.initializeEmpty();
-
         addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b6")));
         addPiece("b3", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b3")));
         addPiece("b1", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b1")));
 
-        addPiece("c3", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c3")));
-        addPiece("c1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c1")));
-        addPiece("c6", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c6")));
-        addPiece("c2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position("c2")));
-
-        assertEquals(1.5, calculator.calculatePoint(Piece.Color.BLACK), 0.01);
-        assertEquals(2.0, calculator.calculatePoint(Piece.Color.WHITE), 0.01);
+        assertEquals(1.5, chessGame.calculatePoint(Piece.Color.BLACK), 0.01);
 
         view.print(board);
     }
@@ -199,11 +181,44 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("체스판에 존재하는 흰색, 검정색 기물을 각각 점수가 높은 순으로 정렬")
-    public void sortByDefaultPointDesc() {
+    @DisplayName("체스판에 존재하는 흰색, 검정색 기물의 점수에 대해 내림차순으로 정렬")
+    public void sortByDefaultPointDescending() {
 
         board.initializeEmpty();
+        addPiecesOnBoard();
 
+        List<Piece> whitePieceList = board.getPieceListByColor(Piece.Color.WHITE);
+        board.sortByPointDescending(whitePieceList);
+        List<Piece> blackPieceList = board.getPieceListByColor(Piece.Color.BLACK);
+        board.sortByPointDescending(blackPieceList);
+
+        assertThat(whitePieceList)
+                .isSortedAccordingTo(Comparator.comparing(Piece::getDefaultPoint).reversed());
+
+        assertThat(blackPieceList)
+                .isSortedAccordingTo(Comparator.comparing(Piece::getDefaultPoint).reversed());
+    }
+
+    @Test
+    @DisplayName("체스판에 존재하는 흰색, 검정색 기물의 점수에 대해 오름차순으로 정렬")
+    public void sortByDefaultPointAscending() {
+
+        board.initializeEmpty();
+        addPiecesOnBoard();
+
+        List<Piece> whitePieceList = board.getPieceListByColor(Piece.Color.WHITE);
+        board.sortByPointAscending(whitePieceList);
+        List<Piece> blackPieceList = board.getPieceListByColor(Piece.Color.BLACK);
+        board.sortByPointAscending(blackPieceList);
+
+        assertThat(whitePieceList)
+                .isSortedAccordingTo(Comparator.comparing(Piece::getDefaultPoint));
+
+        assertThat(blackPieceList)
+                .isSortedAccordingTo(Comparator.comparing(Piece::getDefaultPoint));
+    }
+
+    private void addPiecesOnBoard() {
         addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b6")));
         addPiece("e6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.QUEEN, new Position("e6")));
         addPiece("b8", Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING, new Position("b8")));
@@ -213,15 +228,6 @@ class BoardTest {
         addPiece("g2", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KNIGHT, new Position("g2")));
         addPiece("e1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, new Position("e1")));
         addPiece("f1", Piece.createPiece(Piece.Color.WHITE, Piece.Type.KING, new Position("f1")));
-
-        List<Piece> whitePieceList = board.getPieceListByColor(Piece.Color.WHITE);
-        List<Piece> blackPieceList = board.getPieceListByColor(Piece.Color.BLACK);
-
-        assertThat(whitePieceList)
-                .isSortedAccordingTo(Comparator.comparing((Piece e) -> e.getType().getDefaultPoint()).reversed());
-
-        assertThat(blackPieceList)
-                .isSortedAccordingTo(Comparator.comparing((Piece e) -> e.getType().getDefaultPoint()).reversed());
     }
 
     @Test

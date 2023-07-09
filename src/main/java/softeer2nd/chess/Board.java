@@ -120,14 +120,10 @@ public class Board {
 
     public List<Piece> getPieceListByColor(Color color) {
 
-        List<Piece> pieceList = board.stream()
+        return board.stream()
                 .flatMap(rank -> rank.getPieces().stream())
                 .filter(piece -> piece.getColor().equals(color))
                 .collect(Collectors.toList());
-
-        sortByPointDescending(pieceList);
-
-        return pieceList;
     }
 
     public void sortByPointDescending(List<Piece> pieceList) {

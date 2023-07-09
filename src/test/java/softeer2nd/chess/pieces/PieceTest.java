@@ -53,8 +53,14 @@ class PieceTest {
     @Test
     @DisplayName("Type과 Color 지정 시 정상적으로 representation 되어야 한다.")
     public void getRepresentationPerPiece() throws Exception {
-        assertEquals('p', Type.PAWN.getRepresentation(Color.WHITE));
-        assertEquals('P', Type.PAWN.getRepresentation(Color.BLACK));
+
+        //given,when
+        Piece whitePawn = Piece.createPiece(Color.WHITE, Type.PAWN, new Position("a1"));
+        Piece blackPawn = Piece.createPiece(Color.BLACK, Type.PAWN, new Position("b1"));
+
+        //then
+        assertEquals('p', whitePawn.getRepresentation());
+        assertEquals('P', blackPawn.getRepresentation());
     }
 
 }
