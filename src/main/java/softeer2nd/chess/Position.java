@@ -1,8 +1,6 @@
 package softeer2nd.chess;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Position {
@@ -11,6 +9,14 @@ public class Position {
 
     private int rank;
     private int file;
+
+    public int getRank() {
+        return rank;
+    }
+
+    public int getFile() {
+        return file;
+    }
 
     public Position(String position) {
 
@@ -43,18 +49,6 @@ public class Position {
         map.put("file", position_file);
 
         return map;
-    }
-
-    public List<String> getWhitePawnPosition() {
-
-        List<String> whitePawnPositionList = new ArrayList<>();
-
-        for (int i = 0; i < BOARD_LENGTH; i++) {
-            String position = String.valueOf((char) ('a' + i)) + (2);
-            whitePawnPositionList.add(position);
-        }
-
-        return whitePawnPositionList;
     }
 
 }
