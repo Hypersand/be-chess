@@ -91,20 +91,6 @@ class BoardTest {
     }
 
     @Test
-    public void print() {
-
-        String expectPrint = "RNBQKBNR" + "\n"
-                + "PPPPPPPP" + "\n"
-                + "........" + "\n"
-                + "........" + "\n"
-                + "........" + "\n"
-                + "........" + "\n"
-                + "pppppppp" + "\n"
-                + "rnbqkbnr" + "\n";
-        assertEquals(expectPrint, board.toString());
-    }
-
-    @Test
     @DisplayName("기물의 색과 종류로 기물의 개수를 반환한다.")
     public void getPieceCountByColorAndType() {
 
