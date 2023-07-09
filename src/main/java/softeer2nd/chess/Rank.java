@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Rank {
@@ -33,6 +34,10 @@ public class Rank {
 
     public void set(int index, Piece piece) {
         rank.set(index, piece);
+    }
+
+    public Stream<Piece> stream() {
+        return rank.stream();
     }
 
     public int pieceCount() {
@@ -99,9 +104,8 @@ public class Rank {
 
         Rank whitePawnRank = new Rank(whitePawns);
 
-        for (int i = 0; i < RANK_MAX_LENGTH; i++) {
-            String position = String.valueOf((char) ('a' + i)) + WHITE_PAWN_RANK;
-            whitePawnRank.add(Piece.createPiece(Color.WHITE, Type.PAWN, new Position(position)));
+        for (int i = 0; i < FILE_MAX_LENGTH; i++) {
+            whitePawnRank.add(Piece.createPiece(Color.WHITE, Type.PAWN, new Position(WHITE_PAWN_RANK, i)));
         }
 
         return whitePawnRank;
@@ -111,9 +115,8 @@ public class Rank {
 
         Rank blackPawnRank = new Rank(blackPawns);
 
-        for (int i = 0; i < RANK_MAX_LENGTH; i++) {
-            String position = String.valueOf((char) ('a' + i)) + BLACK_PAWN_RANK;
-            blackPawnRank.add(Piece.createPiece(Color.BLACK, Type.PAWN, new Position(position)));
+        for (int i = 0; i < FILE_MAX_LENGTH; i++) {
+            blackPawnRank.add(Piece.createPiece(Color.BLACK, Type.PAWN, new Position(BLACK_PAWN_RANK, i)));
         }
 
         return blackPawnRank;
@@ -135,10 +138,6 @@ public class Rank {
                 .filter(piece -> isPieceColorEquals(color, piece) && !isPieceTypeEquals(Type.PAWN, piece))
                 .mapToDouble(Piece::getDefaultPoint)
                 .sum();
-    }
-
-    public List<Piece> getPieces() {
-        return new ArrayList<>(rank);
     }
 
     private boolean isPieceColorEquals(Color color, Piece piece) {

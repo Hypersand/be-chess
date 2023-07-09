@@ -121,7 +121,7 @@ public class Board {
     public List<Piece> getPieceListByColor(Color color) {
 
         return board.stream()
-                .flatMap(rank -> rank.getPieces().stream())
+                .flatMap(Rank::stream)
                 .filter(piece -> piece.getColor().equals(color))
                 .collect(Collectors.toList());
     }
