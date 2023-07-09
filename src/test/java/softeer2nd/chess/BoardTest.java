@@ -3,6 +3,8 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import softeer2nd.chess.exception.InvalidMovementException;
 import softeer2nd.chess.exception.InvalidPositionException;
 import softeer2nd.chess.exception.InvalidSameColorException;
@@ -245,23 +247,22 @@ class BoardTest {
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece(targetPosition));
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"b4", "b6", "a5", "c5"})
     @DisplayName("king은 어느 방향이나 한 칸을 움직일 수 있다.")
-    public void king_move() {
+    public void king_move(String targetPosition) {
 
         //given
         board.initializeEmpty();
         String sourcePosition = "b5";
         Piece king = Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING, new Position(sourcePosition));
         addPiece("b5", king);
-        String[] targetPositions = new String[]{"b4", "b3", "a5", "c5"};
 
         //when
-        chessGame.kingMove(sourcePosition, targetPositions[0]);
+        chessGame.kingMove(sourcePosition, targetPosition);
 
         //then
-
-
+        assertThat(board.findPiece(targetPosition)).isEqualTo(king);
     }
 
     @Test
