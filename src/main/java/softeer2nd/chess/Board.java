@@ -89,14 +89,16 @@ public class Board {
         return pawnRank.representationPawnRank(color);
     }
 
-    public Piece findPiece(String pos) {
+    public Piece findPiece(String position) {
 
-        String[] px_py = pos.split("");
+        String[] positions = position.split("");
 
-        int pos_x = px_py[0].charAt(0) - 'a';
-        int pos_y = 8 - Integer.parseInt(px_py[1]);
+        int position_rank = 8 - Integer.parseInt(positions[1]);
+        int position_file = positions[0].charAt(0) - 'a';
 
-        return board.get(pos_y).get(pos_x);
+        Rank rank = board.get(position_rank);
+
+        return rank.get(position_file);
     }
 
     @Override
