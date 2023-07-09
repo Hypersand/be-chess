@@ -89,16 +89,12 @@ public class Board {
         return pawnRank.representationPawnRank(color);
     }
 
-    public Piece findPiece(String position) {
+    public Piece findPiece(String pos) {
 
-        String[] positions = position.split("");
+        Position position = new Position(pos);
+        Rank rank = board.get(position.getRank());
 
-        int position_rank = 8 - Integer.parseInt(positions[1]);
-        int position_file = positions[0].charAt(0) - 'a';
-
-        Rank rank = board.get(position_rank);
-
-        return rank.get(position_file);
+        return rank.get(position.getFile());
     }
 
     @Override
@@ -117,13 +113,17 @@ public class Board {
                 .filter(piece -> piece.getColor().equals(color))
                 .collect(Collectors.toList());
 
-        sortByPointDesc(pieceList);
+        sortByPointDescending(pieceList);
 
         return pieceList;
     }
 
-    public void sortByPointDesc(List<Piece> pieceList) {
+    public void sortByPointDescending(List<Piece> pieceList) {
         pieceList.sort(Comparator.comparingDouble(Piece::getDefaultPoint).reversed());
+    }
+
+    public void sortByPointAscending(List<Piece> pieceList) {
+        pieceList.sort(Comparator.comparingDouble(Piece::getDefaultPoint));
     }
 }
 
