@@ -8,9 +8,6 @@ import softeer2nd.chess.exception.InvalidSameColorException;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ChessGame {
 
     private final Board board;
@@ -19,22 +16,9 @@ public class ChessGame {
         this.board = board;
     }
 
-    public void move(String position, Piece piece) {
-        Map<String, Integer> posMap = getPosition(position);
-
-        board.get(posMap.get("y")).set(posMap.get("x"), piece);
-    }
-
-    private Map<String, Integer> getPosition(String position) {
-        String[] positions = position.split("");
-        int pos_x = positions[0].charAt(0) - 'a';
-        int pos_y = 8 - Integer.parseInt(positions[1]);
-
-        Map<String, Integer> posMap = new HashMap<>();
-        posMap.put("x", pos_x);
-        posMap.put("y", pos_y);
-
-        return posMap;
+    public void move(String pos, Piece piece) {
+        Position position = new Position(pos);
+        board.get(position.getRank()).set(position.getFile(), piece);
     }
 
     public double calculatePoint(Piece.Color color) {
@@ -70,52 +54,53 @@ public class ChessGame {
         return result;
     }
 
-    public void move(String sourcePosition, String targetPosition) {
+    public void move(String sourcePos, String targetPos) {
 
-        Map<String, Integer> sourcePosMap = getPosition(sourcePosition);
-        Map<String, Integer> targetPosMap = getPosition(targetPosition);
+        Position sourcePosition = new Position(sourcePos);
+        Position targetPosition = new Position(targetPos);
 
-        Piece piece = board.findPiece(sourcePosition);
-        board.get(targetPosMap.get("y")).set(targetPosMap.get("x"), board.findPiece(sourcePosition));
-        piece.movePosition(targetPosition);
-        board.get(sourcePosMap.get("y")).set(sourcePosMap.get("x"), Piece.createBlank(new Position(sourcePosition)));
+        Piece piece = board.findPiece(sourcePos);
+        board.get(targetPosition.getRank()).set(targetPosition.getFile(), piece);
+        piece.movePosition(targetPos);
+        board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createBlank(new Position(sourcePos)));
     }
 
-    public void kingMove(String sourcePosition, String targetPosition) {
+    public void kingMove(String sourcePos, String targetPos) {
 
-        Piece king = board.findPiece(sourcePosition);
-        Map<String, Integer> sourcePosMap = getPosition(sourcePosition);
-        Map<String, Integer> targetPosMap = getPosition(targetPosition);
+        Piece king = board.findPiece(sourcePos);
 
-        validateKingMovement(sourcePosMap, targetPosMap);
-        validateTargetPosition(targetPosMap, king.getColor());
+        Position sourcePosition = new Position(sourcePos);
+        Position targetPosition = new Position(targetPos);
+        
+        validateKingMovement(sourcePosition, targetPosition);
+        validateTargetPosition(targetPosition, king.getColor());
 
-        board.get(targetPosMap.get("y")).set(targetPosMap.get("x"), board.findPiece(sourcePosition));
-        king.movePosition(targetPosition);
-        board.get(sourcePosMap.get("y")).set(sourcePosMap.get("x"), Piece.createBlank(new Position(sourcePosition)));
+        board.get(targetPosition.getRank()).set(targetPosition.getFile(), king);
+        king.movePosition(targetPos);
+        board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createBlank(new Position(sourcePos)));
     }
 
-    private void validateKingMovement(Map<String, Integer> sourcePosMap, Map<String, Integer> targetPosMap) {
+    private void validateKingMovement(Position sourcePosition, Position targetPosition) {
 
-        if (Math.abs(sourcePosMap.get("x") - targetPosMap.get("x")) <= 1
-                && Math.abs(sourcePosMap.get("y") - targetPosMap.get("y")) <= 1) {
+        if (Math.abs(sourcePosition.getRank() - targetPosition.getRank()) <= 1
+                && Math.abs(sourcePosition.getFile() - targetPosition.getFile()) <= 1) {
             return;
         }
         throw new InvalidMovementException("킹은 한 칸만 이동할 수 있습니다.");
 
     }
 
-    private void validateTargetPosition(Map<String, Integer> targetPosMap, Color color) {
+    private void validateTargetPosition(Position targetPosition, Color color) {
 
-        if (targetPosMap.get("x") < 0 || targetPosMap.get("x") > 7) {
+        if (targetPosition.getRank() < 0 || targetPosition.getRank() > 7) {
             throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
         }
 
-        if (targetPosMap.get("y") < 0 || targetPosMap.get("y") > 7) {
+        if (targetPosition.getFile() < 0 || targetPosition.getFile() > 7) {
             throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
         }
 
-        Piece targetPiece = board.get(targetPosMap.get("y")).get(targetPosMap.get("x"));
+        Piece targetPiece = board.get(targetPosition.getRank()).get(targetPosition.getFile());
 
         if (targetPiece.getColor().equals(color)) {
             throw new InvalidSameColorException("같은 색 말 위로 이동할 수 없습니다!");
