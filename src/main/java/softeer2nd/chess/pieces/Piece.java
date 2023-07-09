@@ -5,6 +5,28 @@ import softeer2nd.chess.Position;
 import java.util.Objects;
 
 public class Piece {
+
+    public enum Color {
+        WHITE, BLACK, NOCOLOR;
+    }
+
+    public enum Type {
+        PAWN('p', 1.0),
+        ROOK('r', 5.0),
+        KNIGHT('n', 2.5),
+        BISHOP('b', 3.0),
+        QUEEN('q', 9.0),
+        KING('k', 0.0),
+        NO_PIECE('.', 0.0);
+
+        private final char representation;
+        private final double defaultPoint;
+
+        private Type(char representation, double defaultPoint) {
+            this.representation = representation;
+            this.defaultPoint = defaultPoint;
+        }
+    }
     private final Color color;
     private final Type type;
 
@@ -24,13 +46,20 @@ public class Piece {
         return type;
     }
 
-    public void movePosition(String position) {
-        this.position.movePosition(position);
+    public char getRepresentation() {
+        if (color.equals(Color.WHITE)) {
+            return type.representation;
+        }
+
+        return Character.toUpperCase(type.representation);
     }
 
-    //??
-    public char getRepresentation() {
-        return type.getRepresentation(getColor());
+    public double getDefaultPoint() {
+        return type.defaultPoint;
+    }
+
+    public void movePosition(String position) {
+        this.position.movePosition(position);
     }
 
     public boolean isBlack() {
@@ -49,40 +78,6 @@ public class Piece {
         return new Piece(Color.NOCOLOR, Type.NO_PIECE, position);
     }
 
-    public enum Color {
-        WHITE, BLACK, NOCOLOR;
-    }
-
-    //enum은 맨 위에
-    public enum Type {
-        PAWN('p', 1.0),
-        ROOK('r', 5.0),
-        KNIGHT('n', 2.5),
-        BISHOP('b', 3.0),
-        QUEEN('q', 9.0),
-        KING('k', 0.0),
-        NO_PIECE('.', 0.0);
-
-        private final char representation;
-        private final double defaultPoint;
-        private Type(char representation, double defaultPoint) {
-            this.representation = representation;
-            this.defaultPoint = defaultPoint;
-        }
-
-        public double getDefaultPoint() {
-            return defaultPoint;
-        }
-
-        //여기 ㅣㅇㅆ는게 맞나??
-        public char getRepresentation(Color color) {
-            if (color.equals(Color.WHITE)) {
-                return representation;
-            }
-
-            return Character.toUpperCase(representation);
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
