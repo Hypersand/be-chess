@@ -97,6 +97,18 @@ public class Board {
         return rank.get(position.getFile());
     }
 
+    public int pieceCount() {
+        return board.stream()
+                .mapToInt(Rank::pieceCount)
+                .sum();
+    }
+
+    public int pieceCount(Piece.Color color, Piece.Type type) {
+        return board.stream()
+                .mapToInt(rank -> rank.pieceCount(color, type))
+                .sum();
+    }
+
     @Override
     public String toString() {
 
