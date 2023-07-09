@@ -12,6 +12,13 @@ import java.util.stream.Stream;
 
 public class Board {
 
+    public static final int RANK_MAX_LENGTH = 8;
+    public static final int FILE_MAX_LENGTH = 8;
+    public static final int RANK_WHITE_PAWN = 6;
+    public static final int RANK_WHITE_PIECE = 7;
+    public static final int RANK_BLACK_PAWN = 1;
+    public static final int RANK_BLACK_PIECE = 0;
+
     private final List<Rank> board;
 
     public Rank whitePawnRank;
@@ -34,32 +41,46 @@ public class Board {
         whitePawnRank = Rank.createWhitePawnRank(new ArrayList<>());
         blackPawnRank = Rank.createBlackPawnRank(new ArrayList<>());
 
-        for (int i = 0; i < 8; i++) {
-            if (i == 0) {
+        for (int i = 0; i < FILE_MAX_LENGTH; i++) {
+            if (i == RANK_BLACK_PIECE) {
                 board.add(Rank.createPieceRank(Color.BLACK));
                 continue;
             }
 
-            if (i == 1) {
+            if (i == RANK_BLACK_PAWN) {
                 board.add(blackPawnRank);
                 continue;
             }
 
-            if (i == 6) {
+            if (i == RANK_WHITE_PAWN) {
                 board.add(whitePawnRank);
                 continue;
             }
 
-            if (i == 7) {
+            if (i == RANK_WHITE_PIECE) {
                 board.add(Rank.createPieceRank(Color.WHITE));
             } else {
                 Rank blankRank = new Rank(new ArrayList<>());
-                for (int j = 0; j < 8; j++) {
+                for (int j = 0; j < RANK_MAX_LENGTH; j++) {
                     String position = changePosToString(j, i);
                     blankRank.add(Piece.createBlank(new Position(position)));
                 }
                 board.add(blankRank);
             }
+        }
+    }
+
+    public void initializeEmpty() {
+
+        board.clear();
+
+        for (int i = 0; i < FILE_MAX_LENGTH; i++) {
+            Rank blankRank = new Rank(new ArrayList<>());
+            for (int j = 0; j < RANK_MAX_LENGTH; j++) {
+                String position = changePosToString(j, i);
+                blankRank.add(Piece.createBlank(new Position(position)));
+            }
+            board.add(blankRank);
         }
     }
 
@@ -105,20 +126,6 @@ public class Board {
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
     }
 
-    public void initializeEmpty() {
-
-        board.clear();
-
-        for (int i = 0; i < 8; i++) {
-            Rank blankRank = new Rank(new ArrayList<>());
-            for (int j = 0; j < 8; j++) {
-                String position = changePosToString(j, i);
-                blankRank.add(Piece.createBlank(new Position(position)));
-            }
-            board.add(blankRank);
-        }
-    }
-
     public List<Piece> getPieceListByColor(Color color) {
 
         List<Piece> pieceList = board.stream()
@@ -132,7 +139,7 @@ public class Board {
     }
 
     public void sortByPointDesc(List<Piece> pieceList) {
-        pieceList.sort(Comparator.comparingDouble((Piece p) -> p.getType().getDefaultPoint()).reversed());
+        pieceList.sort(Comparator.comparingDouble(Piece::getDefaultPoint).reversed());
     }
 }
 
