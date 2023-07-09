@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 public class Board {
 
     public static final int RANK_MAX_LENGTH = 8;
-    public static final int FILE_MAX_LENGTH = 8;
     public static final int RANK_WHITE_PAWN = 6;
     public static final int RANK_WHITE_PIECE = 7;
     public static final int RANK_BLACK_PAWN = 1;
@@ -41,7 +40,7 @@ public class Board {
         whitePawnRank = Rank.createWhitePawnRank(new ArrayList<>());
         blackPawnRank = Rank.createBlackPawnRank(new ArrayList<>());
 
-        for (int i = 0; i < FILE_MAX_LENGTH; i++) {
+        for (int i = 0; i < RANK_MAX_LENGTH; i++) {
             if (i == RANK_BLACK_PIECE) {
                 board.add(Rank.createPieceRank(Color.BLACK));
                 continue;
@@ -59,14 +58,10 @@ public class Board {
 
             if (i == RANK_WHITE_PIECE) {
                 board.add(Rank.createPieceRank(Color.WHITE));
-            } else {
-                Rank blankRank = new Rank(new ArrayList<>());
-                for (int j = 0; j < RANK_MAX_LENGTH; j++) {
-                    String position = changePosToString(j, i);
-                    blankRank.add(Piece.createBlank(new Position(position)));
-                }
-                board.add(blankRank);
+                continue;
             }
+
+            board.add(Rank.createBlankRank(i));
         }
     }
 
@@ -74,22 +69,9 @@ public class Board {
 
         board.clear();
 
-        for (int i = 0; i < FILE_MAX_LENGTH; i++) {
-            Rank blankRank = new Rank(new ArrayList<>());
-            for (int j = 0; j < RANK_MAX_LENGTH; j++) {
-                String position = changePosToString(j, i);
-                blankRank.add(Piece.createBlank(new Position(position)));
-            }
-            board.add(blankRank);
+        for (int i = 0; i < RANK_MAX_LENGTH; i++) {
+            board.add(Rank.createBlankRank(i));
         }
-    }
-
-    private String changePosToString(int x, int y) {
-
-        char pos_x = (char) ('a' + x);
-        int pos_y = 8 - y;
-
-        return String.valueOf(pos_x) + pos_y;
     }
 
     public String getWhitePawnsResult() {
