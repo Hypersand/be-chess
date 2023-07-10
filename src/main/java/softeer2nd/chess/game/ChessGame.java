@@ -107,13 +107,4 @@ public class ChessGame {
         }
     }
 
-    private void queenMove(String sourcePosition, String targetPosition) {
-
-
-    }
-
-    private void validateQueenMovement() {
-
-    }
-
 }

@@ -4,7 +4,7 @@ import softeer2nd.chess.Position;
 
 import java.util.Objects;
 
-public class Piece {
+public abstract class Piece {
 
     public enum Color {
         WHITE, BLACK, NOCOLOR;
@@ -32,7 +32,7 @@ public class Piece {
 
     private final Position position;
 
-    private Piece(Color color, Type type, Position position) {
+    protected Piece(Color color, Type type, Position position) {
         this.color = color;
         this.type = type;
         this.position = position;
@@ -71,12 +71,35 @@ public class Piece {
     }
 
     public static Piece createPiece(Color color, Type type, Position position) {
-        return new Piece(color, type, position);
+
+        if (type.equals(Type.PAWN)) {
+            return color.equals(Color.WHITE) ? Pawn.createWhitePawn(position) : Pawn.createBlackPawn(position);
+        }
+
+        if (type.equals(Type.KING)) {
+            return color.equals(Color.WHITE) ? King.createWhiteKing(position) : King.createBlackKing(position);
+        }
+
+        if (type.equals(Type.QUEEN)) {
+            return color.equals(Color.WHITE) ? Queen.createWhiteQueen(position) : Queen.createBlackQueen(position);
+        }
+
+        if (type.equals(Type.ROOK)) {
+            return color.equals(Color.WHITE) ? Rook.createWhiteRook(position) : Rook.createBlackRook(position);
+        }
+
+        if (type.equals(Type.BISHOP)) {
+            return color.equals(Color.WHITE) ? Bishop.createWhiteBishop(position) : Bishop.createBlackBishop(position);
+        }
+
+        if (type.equals(Type.KNIGHT)) {
+            return color.equals(Color.WHITE) ? Knight.createWhiteKnight(position) : Knight.createBlackKnight(position);
+        }
+
+        return Blank.createBlank(position);
     }
 
-    public static Piece createBlank(Position position) {
-        return new Piece(Color.NOCOLOR, Type.NO_PIECE, position);
-    }
+    public abstract void verifyMovePosition(Position sourcePosition, Position targetPosition);
 
 
     @Override
