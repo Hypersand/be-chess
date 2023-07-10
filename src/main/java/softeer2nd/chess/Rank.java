@@ -15,7 +15,6 @@ public class Rank {
 
     public static final int WHITE_PAWN_RANK = 2;
     public static final int BLACK_PAWN_RANK = 7;
-    public static final int RANK_MAX_LENGTH = 8;
     public static final int FILE_MAX_LENGTH = 8;
 
     private final List<Piece> rank;
@@ -127,7 +126,7 @@ public class Rank {
         Rank blankRank = new Rank(new ArrayList<>());
 
         for (int j = 0; j < FILE_MAX_LENGTH; j++) {
-            blankRank.add(Piece.createBlank(new Position(rankLine, j)));
+            blankRank.add(Piece.createPiece(Color.NOCOLOR, Type.NO_PIECE, new Position(rankLine, j)));
         }
 
         return blankRank;
