@@ -60,7 +60,7 @@ class KingTest {
         //when,then
         assertThatThrownBy(() -> king.verifyMovePosition(sourcePosition, targetPosition))
                 .isInstanceOf(InvalidMovementException.class)
-                .hasMessage("킹은 한 칸만 이동할 수 있습니다.");
+                .hasMessage("킹의 이동이 올바르지 않습니다!");
 
     }
 }

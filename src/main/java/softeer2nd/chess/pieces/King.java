@@ -23,20 +23,12 @@ public class King extends Piece {
         int xDist = targetPosition.getFile() - sourcePosition.getFile();
         int yDist = targetPosition.getRank() - sourcePosition.getRank();
 
-        boolean canMove = false;
-
         for (Direction direction : Direction.everyDirection()) {
             if (direction.getXDegree() == xDist && direction.getYDegree() == yDist) {
-                canMove = true;
-                break;
+                return;
             }
         }
 
-        if (!canMove) {
-            throw new InvalidMovementException("킹은 한 칸만 이동할 수 있습니다.");
-        }
-
+        throw new InvalidMovementException("킹의 이동이 올바르지 않습니다!");
     }
-
-
 }
