@@ -124,20 +124,6 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("특정 위치에 기물을 추가할 수 있어야 한다.")
-    public void move() throws Exception {
-
-        board.initializeEmpty();
-
-        String position = "b5";
-        Piece piece = Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position(position));
-        chessGame.move(position, piece);
-
-        assertEquals(piece, board.findPiece(position));
-        view.print(board);
-    }
-
-    @Test
     @DisplayName("현재 남아있는 기물에 따른 점수 계산이 가능해야 한다.")
     public void caculcatePoint() throws Exception {
 
@@ -227,7 +213,7 @@ class BoardTest {
         String sourcePosition = "b2";
         String targetPosition = "b3";
         chessGame.move(sourcePosition, targetPosition);
-        assertThat(Piece.createBlank(new Position(sourcePosition)))
+        assertThat(Piece.createPiece(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePosition)))
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece(sourcePosition));
         assertThat(Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(targetPosition)))
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece(targetPosition));
@@ -245,7 +231,7 @@ class BoardTest {
         addPiece("b5", king);
 
         //when
-        chessGame.kingMove(sourcePosition, targetPosition);
+        chessGame.move(sourcePosition, targetPosition);
 
         //then
         assertThat(board.findPiece(targetPosition)).isEqualTo(king);
@@ -260,7 +246,7 @@ class BoardTest {
         String targetPosition = "e0";
 
         //when,then
-        assertThatThrownBy(() -> chessGame.kingMove(sourcePosition,targetPosition))
+        assertThatThrownBy(() -> chessGame.move(sourcePosition,targetPosition))
                 .isInstanceOf(InvalidPositionException.class)
                 .hasMessage("체스판 위에 말을 배치해 주세요!");
 
@@ -274,7 +260,7 @@ class BoardTest {
         String targetPosition = "e3";
 
         //when,then
-        assertThatThrownBy(() -> chessGame.kingMove(sourcePosition,targetPosition))
+        assertThatThrownBy(() -> chessGame.move(sourcePosition,targetPosition))
                 .isInstanceOf(InvalidMovementException.class)
                 .hasMessage("킹은 한 칸만 이동할 수 있습니다.");
 
@@ -289,7 +275,7 @@ class BoardTest {
 
 
         //when,then
-        assertThatThrownBy(() -> chessGame.kingMove(sourcePosition,targetPosition))
+        assertThatThrownBy(() -> chessGame.move(sourcePosition,targetPosition))
                 .isInstanceOf(InvalidSameColorException.class)
                 .hasMessage("같은 색 말 위로 이동할 수 없습니다!");
     }

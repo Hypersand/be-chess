@@ -20,7 +20,7 @@ class PieceTest {
         verifyPiece(Piece.createPiece(Color.WHITE, Type.KING, new Position("a1")), Piece.createPiece(Color.BLACK, Type.KING, new Position("a5")), Type.KING);
         verifyPiece(Piece.createPiece(Color.WHITE, Type.QUEEN, new Position("g3")), Piece.createPiece(Color.BLACK, Type.QUEEN, new Position("g6")), Type.QUEEN);
 
-        Piece blank = Piece.createBlank(new Position("d4"));
+        Piece blank = Piece.createPiece(Color.NOCOLOR, Type.NO_PIECE, new Position("d4"));
         assertFalse(blank.isWhite());
         assertFalse(blank.isBlack());
         assertEquals(Type.NO_PIECE, blank.getType());
