@@ -5,6 +5,8 @@ import softeer2nd.chess.Position;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
 
+import java.util.Map;
+
 public class ChessGame {
 
     private final Board board;
@@ -46,16 +48,25 @@ public class ChessGame {
         return result;
     }
 
-    public void move(String sourcePos, String targetPos) {
+    public void move(String pos, Piece piece) {
+        Position position = new Position(pos);
 
-        Piece sourcePiece = board.findPiece(sourcePos);
-        Piece targetPiece = board.findPiece(targetPos);
+        board.get(position.getRank()).set(position.getFile(), piece);
+    }
+
+    public void move(String sourcePos, String targetPos) {
 
         Position sourcePosition = new Position(sourcePos);
         Position targetPosition = new Position(targetPos);
-        
+
+        Piece sourcePiece = board.findPiece(sourcePos);
+
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
-        sourcePiece.verifyTargetPosition(targetPosition, sourcePiece.getColor(), targetPiece.getColor());
+        sourcePiece.verifyTargetPosition(targetPosition);
+
+        Piece targetPiece = board.findPiece(targetPos);
+
+        targetPiece.verifyTargetColor(sourcePiece.getColor(), targetPiece.getColor());
 
         board.get(targetPosition.getRank()).set(targetPosition.getFile(), sourcePiece);
         sourcePiece.movePosition(targetPos);
