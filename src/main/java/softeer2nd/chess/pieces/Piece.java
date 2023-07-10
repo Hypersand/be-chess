@@ -1,6 +1,8 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Position;
+import softeer2nd.chess.exception.InvalidPositionException;
+import softeer2nd.chess.exception.InvalidSameColorException;
 
 import java.util.Objects;
 
@@ -100,6 +102,21 @@ public abstract class Piece {
     }
 
     public abstract void verifyMovePosition(Position sourcePosition, Position targetPosition);
+
+    public void verifyTargetPosition(Position targetPosition, Color sourceColor, Color targetColor) {
+
+        if (targetPosition.getRank() < 0 || targetPosition.getRank() > 7) {
+            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+        }
+
+        if (targetPosition.getFile() < 0 || targetPosition.getFile() > 7) {
+            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+        }
+
+        if (targetColor.equals(sourceColor)) {
+            throw new InvalidSameColorException("같은 색 말 위로 이동할 수 없습니다!");
+        }
+    }
 
 
     @Override
