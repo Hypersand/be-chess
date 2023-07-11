@@ -70,7 +70,10 @@ public class ChessGame {
             verifyPawnMove(sourcePosition, targetPosition, targetPiece);
         }
 
-        verifyPathObstructed(sourcePosition, targetPosition);
+        if (!sourcePiece.getType().equals(Piece.Type.KNIGHT)) {
+            verifyPathObstructed(sourcePosition, targetPosition);
+        }
+
 
         targetPiece.verifyTargetColor(sourcePiece.getColor(), targetPiece.getColor());
 
@@ -85,14 +88,9 @@ public class ChessGame {
         int verifyFile = sourcePosition.getFile();
         int verifyRank = sourcePosition.getRank();
 
-        System.out.println(verifyFile + " " + verifyRank);
-
         while (true) {
             verifyFile += direction.getXDegree();
             verifyRank += direction.getYDegree();
-
-            System.out.println(verifyFile);
-            System.out.println(verifyRank);
 
             if (verifyRank == targetPosition.getRank() && verifyFile == targetPosition.getFile()) {
                 break;
