@@ -2,6 +2,7 @@ package softeer2nd.chess.simulator;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.game.ChessGame;
+import softeer2nd.chess.game.Turn;
 import softeer2nd.chess.view.ChessView;
 
 import java.util.ArrayList;
@@ -14,8 +15,9 @@ public class ChessSimulator {
         Scanner sc = new Scanner(System.in);
 
         Board board = new Board(new ArrayList<>());
+        Turn turn = new Turn();
         ChessView view = new ChessView();
-        ChessGame chessGame = new ChessGame(board);
+        ChessGame chessGame = new ChessGame(board, turn);
 
         while (sc.hasNextLine()) {
 

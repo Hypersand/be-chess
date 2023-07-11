@@ -3,6 +3,7 @@ package softeer2nd.chess.game;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.Position;
 import softeer2nd.chess.exception.InvalidMovementException;
+import softeer2nd.chess.exception.InvalidTurnException;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
 import softeer2nd.utils.Direction;
@@ -10,9 +11,11 @@ import softeer2nd.utils.Direction;
 public class ChessGame {
 
     private final Board board;
+    private final Turn turn;
 
-    public ChessGame(Board board) {
+    public ChessGame(Board board, Turn turn) {
         this.board = board;
+        this.turn = turn;
     }
 
     public double calculatePoint(Piece.Color color) {
@@ -60,11 +63,12 @@ public class ChessGame {
         Position targetPosition = new Position(targetPos);
 
         Piece sourcePiece = board.findPiece(sourcePos);
+        Piece targetPiece = board.findPiece(targetPos);
+
+        verifyAndChangeTurn(sourcePiece);
 
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
         sourcePiece.verifyTargetPosition(targetPosition);
-
-        Piece targetPiece = board.findPiece(targetPos);
 
         if (sourcePiece.getType().equals(Piece.Type.PAWN)) {
             verifyPawnMove(sourcePosition, targetPosition, targetPiece);
@@ -79,6 +83,29 @@ public class ChessGame {
         board.get(targetPosition.getRank()).set(targetPosition.getFile(), sourcePiece);
         sourcePiece.movePosition(targetPos);
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
+    }
+
+    private void verifyAndChangeTurn(Piece sourcePiece) {
+        if (turn.isFirstTurn()) {
+            if (!sourcePiece.isWhite()) {
+                throw new InvalidTurnException("첫번째 턴은 무조건 흰색입니다!");
+            }
+            turn.changeFirstTurn();
+        }
+
+        if (turn.isWhiteTurn()) {
+            if (!sourcePiece.isWhite()) {
+                throw new InvalidTurnException("흰색이 두어야 할 차례입니다!");
+            }
+        }
+
+        if (!turn.isWhiteTurn()) {
+            if (!sourcePiece.isBlack()) {
+                throw new InvalidTurnException("검은색이 두어야 할 차례입니다!");
+            }
+        }
+
+        turn.changeTurn();
     }
 
     private void verifyPathObstructed(Position sourcePosition, Position targetPosition) {
@@ -112,7 +139,5 @@ public class ChessGame {
             throw new InvalidMovementException("폰은 기물이 있는 곳으로 직선 이동할 수 없습니다!");
         }
     }
-
-
 
 }

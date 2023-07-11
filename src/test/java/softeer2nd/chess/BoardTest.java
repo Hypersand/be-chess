@@ -3,7 +3,6 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.exception.InvalidMovementException;
 import softeer2nd.chess.game.ChessGame;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.view.ChessView;
@@ -13,7 +12,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.utils.StringUtils.appendNewLine;
 
