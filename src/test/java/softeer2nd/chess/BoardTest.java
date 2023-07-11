@@ -235,4 +235,25 @@ class BoardTest {
                 .hasMessage("폰은 기물이 있는 곳으로 직선 이동할 수 없습니다!");
     }
 
+    @Test
+    @DisplayName("배치하려는 위치의 경로 중간에 말이 있으면 이동할 수 없다.")
+    void move_path_obstructed() {
+
+        //given
+        board.initializeEmpty();
+        String sourcePos = "d5";
+        String middlePos = "c6";
+        String targetPos = "b7";
+        Piece sourceBishop = Piece.createPiece(Piece.Color.WHITE, Piece.Type.BISHOP, new Position(sourcePos));
+        Piece middlePawn = Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position(middlePos));
+        chessGame.move(sourcePos, sourceBishop);
+        chessGame.move(middlePos, middlePawn);
+
+        //when,then
+        assertThatThrownBy(() -> chessGame.move(sourcePos, targetPos))
+                .isInstanceOf(InvalidMovementException.class)
+                .hasMessage("배치하려는 위치의 경로 중간에 말이 있으면 이동할 수 없습니다!");
+
+    }
+
 }

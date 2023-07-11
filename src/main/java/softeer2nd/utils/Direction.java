@@ -1,26 +1,28 @@
 package softeer2nd.utils;
 
+import softeer2nd.chess.Position;
+
 import java.util.Arrays;
 import java.util.List;
 
 public enum Direction {
-    NORTH(0, 1),
-    NORTHEAST(1, 1),
+    NORTH(0, -1),
+    NORTHEAST(1, -1),
     EAST(1, 0),
-    SOUTHEAST(1, -1),
-    SOUTH(0, -1),
-    SOUTHWEST(-1, -1),
+    SOUTHEAST(1, 1),
+    SOUTH(0, 1),
+    SOUTHWEST(-1, 1),
     WEST(-1, 0),
-    NORTHWEST(-1, 1),
+    NORTHWEST(-1, -1),
 
-    NNE(1, 2),
-    NNW(-1, 2),
-    SSE(1, -2),
-    SSW(-1, -2),
-    EEN(2, 1),
-    EES(2, -1),
-    WWN(-2, 1),
-    WWS(-2, -1);
+    NNE(1, -2),
+    NNW(-1, -2),
+    SSE(1, 2),
+    SSW(-1, 2),
+    EEN(2, -1),
+    EES(2, 1),
+    WWN(-2, -1),
+    WWS(-2, 1);
 
     private int xDegree;
     private int yDegree;
@@ -61,4 +63,24 @@ public enum Direction {
     public static List<Direction> blackPawnDirection() {
         return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
     }
+
+    public static Direction getDirection(Position sourcePosition, Position targetPosition) {
+        int xDist = targetPosition.getFile() - sourcePosition.getFile();
+        int yDist = targetPosition.getRank() - sourcePosition.getRank();
+
+        if (xDist == 0) {
+            return yDist > 0 ? Direction.SOUTH : Direction.NORTH;
+        }
+
+        if (yDist == 0) {
+            return xDist > 0 ? Direction.EAST : Direction.WEST;
+        }
+
+        if (xDist > 0) {
+            return yDist > 0 ? SOUTHEAST : NORTHEAST;
+        }
+
+        return yDist > 0 ? SOUTHWEST : NORTHWEST;
+    }
+
 }

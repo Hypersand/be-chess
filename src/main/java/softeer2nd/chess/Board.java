@@ -97,6 +97,10 @@ public class Board {
         return rank.get(position.getFile());
     }
 
+    public Piece findPiece(int rank, int file) {
+        return board.get(rank).get(file);
+    }
+
     public int pieceCount() {
         return board.stream()
                 .mapToInt(Rank::pieceCount)

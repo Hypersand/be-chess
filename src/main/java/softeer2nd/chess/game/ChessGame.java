@@ -5,6 +5,7 @@ import softeer2nd.chess.Position;
 import softeer2nd.chess.exception.InvalidMovementException;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
+import softeer2nd.utils.Direction;
 
 public class ChessGame {
 
@@ -69,7 +70,7 @@ public class ChessGame {
             verifyPawnMove(sourcePosition, targetPosition, targetPiece);
         }
 
-        verifyPathObstructed();
+        verifyPathObstructed(sourcePosition, targetPosition);
 
         targetPiece.verifyTargetColor(sourcePiece.getColor(), targetPiece.getColor());
 
@@ -78,9 +79,29 @@ public class ChessGame {
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
     }
 
-    //1. 목적지까지의 경로 중간에 말이 있을 경우
-    private void verifyPathObstructed() {
+    private void verifyPathObstructed(Position sourcePosition, Position targetPosition) {
+        Direction direction = Direction.getDirection(sourcePosition, targetPosition);
 
+        int verifyFile = sourcePosition.getFile();
+        int verifyRank = sourcePosition.getRank();
+
+        System.out.println(verifyFile + " " + verifyRank);
+
+        while (true) {
+            verifyFile += direction.getXDegree();
+            verifyRank += direction.getYDegree();
+
+            System.out.println(verifyFile);
+            System.out.println(verifyRank);
+
+            if (verifyRank == targetPosition.getRank() && verifyFile == targetPosition.getFile()) {
+                break;
+            }
+
+            if (!board.findPiece(verifyRank, verifyFile).isBlank()) {
+                throw new InvalidMovementException("배치하려는 위치의 경로 중간에 말이 있으면 이동할 수 없습니다!");
+            }
+        }
     }
 
     private void verifyPawnMove(Position sourcePosition, Position targetPosition, Piece targetPiece) {
