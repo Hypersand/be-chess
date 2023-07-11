@@ -74,7 +74,6 @@ public class ChessGame {
             verifyPathObstructed(sourcePosition, targetPosition);
         }
 
-
         targetPiece.verifyTargetColor(sourcePiece.getColor(), targetPiece.getColor());
 
         board.get(targetPosition.getRank()).set(targetPosition.getFile(), sourcePiece);
@@ -109,9 +108,11 @@ public class ChessGame {
             throw new InvalidMovementException("폰은 기물이 없는 곳으로 대각선 이동할 수 없습니다!");
         }
 
-        if (xDist == 0) {
+        if (!targetPiece.isBlank() && xDist == 0) {
             throw new InvalidMovementException("폰은 기물이 있는 곳으로 직선 이동할 수 없습니다!");
         }
     }
+
+
 
 }
