@@ -11,23 +11,23 @@ import softeer2nd.chess.exception.InvalidPositionException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-class RookTest {
+class BishopTest {
 
-    private Piece rook;
+    private Piece bishop;
 
     @ParameterizedTest
-    @ValueSource(strings = {"a5", "d7", "g5", "d4"})
-    @DisplayName("룩은 상하좌우 일직선으로 원하는 만큼 이동할 수 있다.")
-    void rook_move(String targetPos) {
+    @ValueSource(strings = {"b7", "g8", "e4", "b3"})
+    @DisplayName("비숍은 대각선 방향으로 기물이 없는 칸에 한해서 칸수의 제한 없이 움직일 수 있다.")
+    void bishop_move(String targetPos) {
 
         //given
         String sourcePos = "d5";
         Position sourcePosition = new Position(sourcePos);
         Position targetPosition = new Position(targetPos);
-        rook = Piece.createPiece(Piece.Color.WHITE, Piece.Type.ROOK, sourcePosition);
+        bishop = Piece.createPiece(Piece.Color.WHITE, Piece.Type.BISHOP, sourcePosition);
 
         //when,then
-        assertDoesNotThrow(() -> rook.verifyMovePosition(sourcePosition, targetPosition));
+        assertDoesNotThrow(() -> bishop.verifyMovePosition(sourcePosition, targetPosition));
     }
 
     @Test
@@ -37,28 +37,28 @@ class RookTest {
         //given
         Position sourcePosition = new Position("e1");
         Position targetPosition = new Position("c0");
-        rook = Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, sourcePosition);
+        bishop = Piece.createPiece(Piece.Color.BLACK, Piece.Type.BISHOP, sourcePosition);
 
         //when,then
-        assertThatThrownBy(() -> rook.verifyTargetPosition(targetPosition))
+        assertThatThrownBy(() -> bishop.verifyTargetPosition(targetPosition))
                 .isInstanceOf(InvalidPositionException.class)
                 .hasMessage("체스판 위에 말을 배치해 주세요!");
 
     }
 
     @Test
-    @DisplayName("룩의 올바른 이동 방향이 아니면 예외 발생")
-    public void rook_move_exception() {
+    @DisplayName("비숍의 올바른 이동 방향이 아니면 예외 발생")
+    public void bishop_move_exception() {
 
         //given
-        Position sourcePosition = new Position("d4");
-        Position targetPosition = new Position("e6");
-        rook = Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, sourcePosition);
+        Position sourcePosition = new Position("d5");
+        Position targetPosition = new Position("e8");
+        bishop = Piece.createPiece(Piece.Color.BLACK, Piece.Type.BISHOP, sourcePosition);
 
         //when,then
-        assertThatThrownBy(() -> rook.verifyMovePosition(sourcePosition, targetPosition))
+        assertThatThrownBy(() -> bishop.verifyMovePosition(sourcePosition, targetPosition))
                 .isInstanceOf(InvalidMovementException.class)
-                .hasMessage("룩의 이동이 올바르지 않습니다!");
+                .hasMessage("비숍의 이동이 올바르지 않습니다!");
 
     }
 
