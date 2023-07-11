@@ -5,7 +5,9 @@ import java.util.Map;
 
 public class Position {
 
-    public static final int BOARD_LENGTH = 8;
+    private static final int BOARD_LENGTH = 8;
+    private static final int RANK_WHITE_PAWN = 6;
+    private static final int RANK_BLACK_PAWN = 1;
 
     private int rank;
     private int file;
@@ -49,6 +51,14 @@ public class Position {
         map.put("file", position_file);
 
         return map;
+    }
+
+    public boolean isWhitePawnStartPosition() {
+        return getRank() == RANK_WHITE_PAWN;
+    }
+
+    public boolean isBlackPawnStartPosition() {
+        return getRank() == RANK_BLACK_PAWN;
     }
 
 }

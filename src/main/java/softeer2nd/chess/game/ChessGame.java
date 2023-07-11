@@ -5,8 +5,6 @@ import softeer2nd.chess.Position;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
 
-import java.util.Map;
-
 public class ChessGame {
 
     private final Board board;
@@ -72,5 +70,10 @@ public class ChessGame {
         sourcePiece.movePosition(targetPos);
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
     }
+
+    //추가로 검증할 로직
+    //1. 목적지 까지의 경로 중간에 말이 있을 경우
+    //2. 폰은 기물이 있는 곳으로 직선 이동할 수 없다.
+    //3. 폰은 기물이 없는 곳으로 대각선 이동할 수 없다.
 
 }

@@ -5,9 +5,6 @@ import softeer2nd.chess.exception.InvalidMovementException;
 
 public class Pawn extends Piece {
 
-    private static final int RANK_WHITE_PAWN = 6;
-    private static final int RANK_BLACK_PAWN = 1;
-
     private Pawn(Color color, Type type, Position position) {
         super(color, type, position);
     }
@@ -26,8 +23,8 @@ public class Pawn extends Piece {
         int xDist = targetPosition.getFile() - sourcePosition.getFile();
         int yDist = targetPosition.getRank() - sourcePosition.getRank();
 
-        if (getColor().equals(Color.WHITE)) {
-            if (sourcePosition.getRank() == RANK_WHITE_PAWN) {
+        if (isWhite()) {
+            if (sourcePosition.isWhitePawnStartPosition()) {
                 if (targetPosition.getFile() != sourcePosition.getFile()) {
                     throw new InvalidMovementException("폰은 다른 파일로 이동할 수 없습니다!");
                 }
@@ -44,8 +41,8 @@ public class Pawn extends Piece {
 
         }
 
-        if (getColor().equals(Color.BLACK)) {
-            if (sourcePosition.getRank() == RANK_BLACK_PAWN) {
+        if (isBlack()) {
+            if (sourcePosition.isBlackPawnStartPosition()) {
                 if (targetPosition.getFile() != sourcePosition.getFile()) {
                     throw new InvalidMovementException("폰의 이동이 올바르지 않습니다!");
                 }
