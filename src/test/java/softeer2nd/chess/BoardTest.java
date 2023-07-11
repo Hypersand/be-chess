@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.game.ChessGame;
+import softeer2nd.chess.game.Turn;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.view.ChessView;
 
@@ -20,14 +21,16 @@ class BoardTest {
     private Board board;
     private ChessView view;
     private ChessGame chessGame;
+    private Turn turn;
 
     @BeforeEach
     public void setUp() {
         List<Rank> boardList = new ArrayList<>();
         board = new Board(boardList);
+        turn = new Turn();
         board.initialize();
         view = new ChessView();
-        chessGame = new ChessGame(board);
+        chessGame = new ChessGame(board, turn);
     }
 
     @Test

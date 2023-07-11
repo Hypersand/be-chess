@@ -19,13 +19,15 @@ class ChessGameTest {
 
     private Board board;
     private ChessGame chessGame;
+    private Turn turn;
 
     @BeforeEach
     public void setUp() {
         List<Rank> boardList = new ArrayList<>();
         board = new Board(boardList);
         board.initialize();
-        chessGame = new ChessGame(board);
+        turn = new Turn();
+        chessGame = new ChessGame(board,turn);
     }
 
     @Test
