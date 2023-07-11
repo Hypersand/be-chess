@@ -7,6 +7,7 @@ import softeer2nd.chess.Board;
 import softeer2nd.chess.Position;
 import softeer2nd.chess.Rank;
 import softeer2nd.chess.exception.InvalidMovementException;
+import softeer2nd.chess.exception.InvalidTurnException;
 import softeer2nd.chess.pieces.Piece;
 
 import java.util.ArrayList;
@@ -101,4 +102,33 @@ class ChessGameTest {
 
     }
 
+    @Test
+    @DisplayName("첫번째 턴은 무조건 흰색 턴이다.")
+    void first_turn_is_white() {
+
+        //given
+        String sourcePos = "b7"; // 검정색 폰
+        String targetPos = "b6";
+
+        //when, then
+        assertThatThrownBy(() -> chessGame.move(sourcePos, targetPos))
+                .isInstanceOf(InvalidTurnException.class)
+                .hasMessage("첫번째 턴은 무조건 흰색입니다!");
+    }
+
+    @Test
+    @DisplayName("검은색이 두어야 할 차례에 흰색이 두면 예외 발생")
+    void turn_white() {
+
+        //given
+        String sourcePos1 = "b2";
+        String targetPos1 = "b3";
+        String targetPos2 = "b4";
+        chessGame.move(sourcePos1, targetPos1);
+
+        //when, then
+        assertThatThrownBy(() -> chessGame.move(targetPos1, targetPos2))
+                .isInstanceOf(InvalidTurnException.class)
+                .hasMessage("검은색이 두어야 할 차례입니다!");
+    }
 }

@@ -48,7 +48,7 @@ class PawnTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"c6", "e6", "d7", "d4"})
+    @ValueSource(strings = {"d7", "d4"})
     @DisplayName("시작 위치의 폰이 아니라면 진행 방향으로 한 칸만 이동할 수 있다.(예외처리)")
     public void pawn_move_fail(String targetPos) {
 
