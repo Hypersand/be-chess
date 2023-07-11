@@ -2,6 +2,7 @@ package softeer2nd.chess.game;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.Position;
+import softeer2nd.chess.exception.InvalidMovementException;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
 
@@ -64,6 +65,12 @@ public class ChessGame {
 
         Piece targetPiece = board.findPiece(targetPos);
 
+        if (sourcePiece.getType().equals(Piece.Type.PAWN)) {
+            verifyPawnMove(sourcePosition, targetPosition, targetPiece);
+        }
+
+        verifyPathObstructed();
+
         targetPiece.verifyTargetColor(sourcePiece.getColor(), targetPiece.getColor());
 
         board.get(targetPosition.getRank()).set(targetPosition.getFile(), sourcePiece);
@@ -71,9 +78,21 @@ public class ChessGame {
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
     }
 
-    //추가로 검증할 로직
-    //1. 목적지 까지의 경로 중간에 말이 있을 경우
-    //2. 폰은 기물이 있는 곳으로 직선 이동할 수 없다.
-    //3. 폰은 기물이 없는 곳으로 대각선 이동할 수 없다.
+    //1. 목적지까지의 경로 중간에 말이 있을 경우
+    private void verifyPathObstructed() {
+
+    }
+
+    private void verifyPawnMove(Position sourcePosition, Position targetPosition, Piece targetPiece) {
+        int xDist = targetPosition.getFile() - sourcePosition.getFile();
+
+        if (targetPiece.isBlank() && Math.abs(xDist) > 0) {
+            throw new InvalidMovementException("폰은 기물이 없는 곳으로 대각선 이동할 수 없습니다!");
+        }
+
+        if (xDist == 0) {
+            throw new InvalidMovementException("폰은 기물이 있는 곳으로 직선 이동할 수 없습니다!");
+        }
+    }
 
 }

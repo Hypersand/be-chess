@@ -72,6 +72,10 @@ public abstract class Piece {
         return color.equals(Color.WHITE);
     }
 
+    public boolean isBlank() {
+        return type.equals(Type.NO_PIECE);
+    }
+
     public static Piece createPiece(Color color, Type type, Position position) {
 
         if (type.equals(Type.PAWN)) {

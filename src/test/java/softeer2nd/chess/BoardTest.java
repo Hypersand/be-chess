@@ -3,6 +3,7 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.exception.InvalidMovementException;
 import softeer2nd.chess.game.ChessGame;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.view.ChessView;
@@ -12,6 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.utils.StringUtils.appendNewLine;
 
@@ -45,49 +47,39 @@ class BoardTest {
         );
     }
 
-
-
     @Test
     public void initialize() throws Exception {
-
         assertEquals("pppppppp",board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
     @Test
     public void getWhitePawnsResult() {
-
         String whitePawnsResult = board.getWhitePawnsResult();
         assertEquals(whitePawnsResult, "pppppppp");
     }
 
     @Test
     public void getBlackPawnsResult() {
-
         String blackPawnsResult = board.getBlackPawnsResult();
         assertEquals(blackPawnsResult, "PPPPPPPP");
     }
 
     @Test
     public void getWhitePiecesResult() {
-
         String piecesRepresentation = board.get(7).representationRank();
-
         assertEquals(piecesRepresentation, "rnbqkbnr");
     }
 
     @Test
     public void getBlackPiecesResult() {
-
         String piecesRepresentation = board.get(0).representationRank();
-
         assertEquals(piecesRepresentation, "RNBQKBNR");
     }
 
     @Test
     @DisplayName("기물의 색과 종류로 기물의 개수를 반환한다.")
     public void getPieceCountByColorAndType() {
-
         assertEquals(32, board.pieceCount(Piece.Color.NOCOLOR, Piece.Type.NO_PIECE));
         assertEquals(8, board.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN));
         assertEquals(8, board.pieceCount(Piece.Color.BLACK, Piece.Type.PAWN));
@@ -106,7 +98,6 @@ class BoardTest {
     @Test
     @DisplayName("특정 위치의 기물을 반환해야 한다.")
     public void findPiece() throws Exception {
-
         assertThat(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("a8")))
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece("a8"));
         assertThat(Piece.createPiece(Piece.Color.BLACK, Piece.Type.ROOK, new Position("h8")))
@@ -123,10 +114,8 @@ class BoardTest {
 
         board.initializeEmpty();
         addPiecesOnBoard();
-
         assertEquals(15.0, chessGame.calculatePoint(Piece.Color.BLACK), 0.01);
         assertEquals(8.5, chessGame.calculatePoint(Piece.Color.WHITE), 0.01);
-
         view.print(board);
     }
 
@@ -138,9 +127,7 @@ class BoardTest {
         addPiece("b6", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b6")));
         addPiece("b3", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b3")));
         addPiece("b1", Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position("b1")));
-
         assertEquals(1.5, chessGame.calculatePoint(Piece.Color.BLACK), 0.01);
-
         view.print(board);
     }
 
@@ -201,7 +188,6 @@ class BoardTest {
     @Test
     @DisplayName("기물이 현재 위치에서 다른 위치로 이동할 수 있어야 한다.")
     public void moveToTarget() throws Exception {
-
         board.initialize();
 
         String sourcePosition = "b2";
@@ -211,6 +197,42 @@ class BoardTest {
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece(sourcePosition));
         assertThat(Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(targetPosition)))
                 .isEqualToComparingFieldByFieldRecursively(board.findPiece(targetPosition));
+    }
+
+    @Test
+    @DisplayName("폰은 기물이 없는 곳으로 대각선 이동할 수 없다.")
+    void pawn_move_diagonal() {
+
+        //given
+        board.initializeEmpty();
+        String sourcePos = "b3";
+        String targetPos = "c4";
+        Piece pawn = Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(sourcePos));
+        chessGame.move(sourcePos, pawn);
+
+        //when,then
+        assertThatThrownBy(() -> chessGame.move(sourcePos, targetPos))
+                .isInstanceOf(InvalidMovementException.class)
+                .hasMessage("폰은 기물이 없는 곳으로 대각선 이동할 수 없습니다!");
+    }
+
+    @Test
+    @DisplayName("폰은 기물이 있는 곳으로 직선 이동할 수 없다.")
+    void pawn_move_linear() {
+
+        //given
+        board.initializeEmpty();
+        String sourcePos = "b3";
+        String targetPos = "b4";
+        Piece sourcePawn = Piece.createPiece(Piece.Color.WHITE, Piece.Type.PAWN, new Position(sourcePos));
+        Piece targetPawn = Piece.createPiece(Piece.Color.BLACK, Piece.Type.PAWN, new Position(targetPos));
+        chessGame.move(sourcePos, sourcePawn);
+        chessGame.move(targetPos, targetPawn);
+
+        //when,then
+        assertThatThrownBy(() -> chessGame.move(sourcePos, targetPos))
+                .isInstanceOf(InvalidMovementException.class)
+                .hasMessage("폰은 기물이 있는 곳으로 직선 이동할 수 없습니다!");
     }
 
 }
