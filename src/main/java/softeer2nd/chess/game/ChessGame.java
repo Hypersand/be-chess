@@ -76,11 +76,11 @@ public class ChessGame {
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
         sourcePiece.verifyTargetPosition(targetPosition);
 
-        if (sourcePiece.getType().equals(Piece.Type.PAWN)) {
+        if (sourcePiece.isSameType(Piece.Type.PAWN)) {
             verifyPawnMove(sourcePosition, targetPosition, targetPiece);
         }
 
-        if (!sourcePiece.getType().equals(Piece.Type.KNIGHT)) {
+        if (!sourcePiece.isSameType(Piece.Type.KNIGHT)) {
             verifyPathObstructed(sourcePosition, targetPosition);
         }
 
