@@ -17,7 +17,7 @@ class TurnTest {
 
         //then
         assertTrue(turn.isFirstTurn());
-        assertTrue(turn.isWhiteTurn());
+        assertTrue(turn.isWhite());
     }
 
     @Test
@@ -28,7 +28,7 @@ class TurnTest {
         Turn turn = new Turn();
 
         //when
-        turn.changeFirstTurn();
+        turn.finishFirstTurn();
 
         //then
         assertFalse(turn.isFirstTurn());
@@ -45,7 +45,7 @@ class TurnTest {
         turn.changeTurn();
 
         //then
-        assertFalse(turn.isWhiteTurn());
+        assertFalse(turn.isWhite());
     }
 
 

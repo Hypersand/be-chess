@@ -1,34 +1,36 @@
 package softeer2nd.chess.game;
 
+import softeer2nd.chess.pieces.Piece.Color;
+
 public class Turn {
 
-    private boolean isWhiteTurn;
+    private Color color;
     private boolean isFirstTurn;
 
     public Turn() {
-        isWhiteTurn = true;
+        color = Color.WHITE;
         isFirstTurn = true;
     }
 
-    public boolean isWhiteTurn() {
-        return isWhiteTurn;
+    public boolean isWhite() {
+        return color.equals(Color.WHITE);
     }
 
     public boolean isFirstTurn() {
         return isFirstTurn;
     }
 
-    public void changeFirstTurn() {
+    public void finishFirstTurn() {
         isFirstTurn = false;
     }
 
     public void changeTurn() {
-        if (isWhiteTurn) {
-            isWhiteTurn = false;
+        if (isWhite()) {
+            color = Color.BLACK;
             return;
         }
 
-        isWhiteTurn = true;
+        color = Color.WHITE;
     }
 
 }

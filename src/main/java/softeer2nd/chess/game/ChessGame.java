@@ -70,6 +70,7 @@ public class ChessGame {
         Piece sourcePiece = board.findPiece(sourcePos);
         Piece targetPiece = board.findPiece(targetPos);
 
+        verifyFirstTurn();
         verifyAndChangeTurn(sourcePiece);
 
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
@@ -90,24 +91,24 @@ public class ChessGame {
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
     }
 
-    private void verifyAndChangeTurn(Piece sourcePiece) {
+    private void verifyFirstTurn() {
+
         if (turn.isFirstTurn()) {
-            if (!sourcePiece.isWhite()) {
+            if (!turn.isWhite()) {
                 throw new InvalidTurnException("첫번째 턴은 무조건 흰색입니다!");
             }
-            turn.changeFirstTurn();
+            turn.finishFirstTurn();
+        }
+    }
+
+    private void verifyAndChangeTurn(Piece sourcePiece) {
+
+        if (turn.isWhite() && !sourcePiece.isWhite()) {
+            throw new InvalidTurnException("흰색이 두어야 할 차례입니다!");
         }
 
-        if (turn.isWhiteTurn()) {
-            if (!sourcePiece.isWhite()) {
-                throw new InvalidTurnException("흰색이 두어야 할 차례입니다!");
-            }
-        }
-
-        if (!turn.isWhiteTurn()) {
-            if (!sourcePiece.isBlack()) {
-                throw new InvalidTurnException("검은색이 두어야 할 차례입니다!");
-            }
+        if (!turn.isWhite() && !sourcePiece.isBlack()) {
+            throw new InvalidTurnException("검은색이 두어야 할 차례입니다!");
         }
 
         turn.changeTurn();
