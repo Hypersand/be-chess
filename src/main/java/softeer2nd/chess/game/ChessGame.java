@@ -34,15 +34,13 @@ public class ChessGame {
             for (int j = 0; j < 8; j++) {
                 Piece piece = board.get(j).get(i);
 
-                if (piece.getType().equals(Piece.Type.PAWN) && piece.getColor().equals(color)) {
+                if (piece.isSameType(Piece.Type.PAWN) && piece.isSameColor(color)) {
                     pawnCount++;
                 }
             }
-
             if (pawnCount == 1) {
                 result += 1;
             }
-
             if (pawnCount > 1) {
                 result += (pawnCount * 0.5);
             }

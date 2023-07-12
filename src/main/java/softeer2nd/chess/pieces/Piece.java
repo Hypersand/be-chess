@@ -76,6 +76,14 @@ public abstract class Piece {
         return type.equals(Type.NO_PIECE);
     }
 
+    public boolean isSameType(Type type) {
+        return this.type == type;
+    }
+
+    public boolean isSameColor(Color color) {
+        return this.color == color;
+    }
+
     public static Piece createPiece(Color color, Type type, Position position) {
 
         if (type.equals(Type.PAWN)) {
