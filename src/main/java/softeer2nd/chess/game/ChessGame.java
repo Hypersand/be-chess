@@ -2,6 +2,7 @@ package softeer2nd.chess.game;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.Position;
+import softeer2nd.chess.Rank;
 import softeer2nd.chess.exception.InvalidMovementException;
 import softeer2nd.chess.exception.InvalidTurnException;
 import softeer2nd.chess.pieces.Piece;
@@ -9,6 +10,9 @@ import softeer2nd.chess.pieces.Piece.Color;
 import softeer2nd.utils.Direction;
 
 public class ChessGame {
+
+    private static final int RANK_MAX_LENGTH = 8;
+    private static final int FILE_MAX_LENGTH = 8;
 
     private final Board board;
     private final Turn turn;
@@ -28,11 +32,13 @@ public class ChessGame {
 
         double result = 0;
 
-        for (int i = 0; i < 8; i++) {
+
+        for (int i = 0; i < RANK_MAX_LENGTH; i++) {
             int pawnCount = 0;
 
-            for (int j = 0; j < 8; j++) {
-                Piece piece = board.get(j).get(i);
+            for (int j = 0; j < FILE_MAX_LENGTH; j++) {
+                Rank rank = board.get(j);
+                Piece piece = rank.get(i);
 
                 if (piece.isSameType(Piece.Type.PAWN) && piece.isSameColor(color)) {
                     pawnCount++;
@@ -40,6 +46,7 @@ public class ChessGame {
             }
             if (pawnCount == 1) {
                 result += 1;
+                continue;
             }
             if (pawnCount > 1) {
                 result += (pawnCount * 0.5);
