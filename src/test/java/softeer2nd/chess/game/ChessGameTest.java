@@ -113,7 +113,7 @@ class ChessGameTest {
         //when, then
         assertThatThrownBy(() -> chessGame.move(sourcePos, targetPos))
                 .isInstanceOf(InvalidTurnException.class)
-                .hasMessage("첫번째 턴은 무조건 흰색입니다!");
+                .hasMessage("흰색이 두어야 할 차례입니다!");
     }
 
     @Test

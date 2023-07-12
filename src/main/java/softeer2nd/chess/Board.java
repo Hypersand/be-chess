@@ -75,22 +75,18 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
-
         return representationPawnRank(whitePawnRank, Color.WHITE);
     }
 
     public String getBlackPawnsResult() {
-
         return representationPawnRank(blackPawnRank, Color.BLACK);
     }
 
     private String representationPawnRank(Rank pawnRank, Color color) {
-
         return pawnRank.representationPawnRank(color);
     }
 
     public Piece findPiece(String pos) {
-
         Position position = new Position(pos);
         Rank rank = board.get(position.getRank());
 
@@ -113,10 +109,7 @@ public class Board {
                 .sum();
     }
 
-    @Override
-    public String toString() {
-
-        //StringBuilder 사용해보기
+    public String showBoard() {
         return board.stream()
                 .map(rank -> rank.isEmpty() ? "........" : rank.representationRank())
                 .collect(Collectors.joining(StringUtils.NEWLINE)) + StringUtils.NEWLINE;
