@@ -31,19 +31,10 @@ public class ChessGame {
     private double calculatePawn(Piece.Color color) {
 
         double result = 0;
-
+        int pawnCount;
 
         for (int i = 0; i < RANK_MAX_LENGTH; i++) {
-            int pawnCount = 0;
-
-            for (int j = 0; j < FILE_MAX_LENGTH; j++) {
-                Rank rank = board.get(j);
-                Piece piece = rank.get(i);
-
-                if (piece.isSameType(Piece.Type.PAWN) && piece.isSameColor(color)) {
-                    pawnCount++;
-                }
-            }
+            pawnCount = getPawnCount(color, i, 0);
             if (pawnCount == 1) {
                 result += 1;
                 continue;
@@ -52,13 +43,23 @@ public class ChessGame {
                 result += (pawnCount * 0.5);
             }
         }
-
         return result;
+    }
+
+    private int getPawnCount(Color color, int rankLine, int pawnCount) {
+        for (int j = 0; j < FILE_MAX_LENGTH; j++) {
+            Rank rank = board.get(j);
+            Piece piece = rank.get(rankLine);
+
+            if (piece.isSameType(Piece.Type.PAWN) && piece.isSameColor(color)) {
+                pawnCount++;
+            }
+        }
+        return pawnCount;
     }
 
     public void move(String pos, Piece piece) {
         Position position = new Position(pos);
-
         board.get(position.getRank()).set(position.getFile(), piece);
     }
 
@@ -70,7 +71,6 @@ public class ChessGame {
         Piece sourcePiece = board.findPiece(sourcePos);
         Piece targetPiece = board.findPiece(targetPos);
 
-        verifyFirstTurn();
         verifyAndChangeTurn(sourcePiece);
 
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
@@ -91,22 +91,11 @@ public class ChessGame {
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
     }
 
-    private void verifyFirstTurn() {
-
-        if (turn.isFirstTurn()) {
-            if (!turn.isWhite()) {
-                throw new InvalidTurnException("첫번째 턴은 무조건 흰색입니다!");
-            }
-            turn.finishFirstTurn();
-        }
-    }
-
     private void verifyAndChangeTurn(Piece sourcePiece) {
 
         if (turn.isWhite() && !sourcePiece.isWhite()) {
             throw new InvalidTurnException("흰색이 두어야 할 차례입니다!");
         }
-
         if (!turn.isWhite() && !sourcePiece.isBlack()) {
             throw new InvalidTurnException("검은색이 두어야 할 차례입니다!");
         }

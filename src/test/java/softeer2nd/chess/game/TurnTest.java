@@ -9,29 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TurnTest {
 
     @Test
-    @DisplayName("턴 객체를 만들면 흰색 턴이며 첫번째 턴임을 확인해야 한다.")
+    @DisplayName("턴 객체를 만들면 흰색 턴이다.")
     void turn_create() {
 
         //when
         Turn turn = new Turn();
 
         //then
-        assertTrue(turn.isFirstTurn());
         assertTrue(turn.isWhite());
-    }
-
-    @Test
-    @DisplayName("첫번째 턴이 종료되면 isFirstTurn을 false로 바꾼다.")
-    void first_turn_end() {
-
-        //given
-        Turn turn = new Turn();
-
-        //when
-        turn.finishFirstTurn();
-
-        //then
-        assertFalse(turn.isFirstTurn());
     }
 
     @Test
