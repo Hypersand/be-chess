@@ -57,7 +57,7 @@ public class Pawn extends Piece {
     }
 
     private void verifyBlackPawnStartPosition(Position sourcePosition, Position targetPosition, int yDist) {
-        if (sourcePosition.isWhitePawnStartPosition()) {
+        if (sourcePosition.isBlackPawnStartPosition()) {
             if (targetPosition.getFile() != sourcePosition.getFile()) {
                 throw new InvalidMovementException("폰은 다른 파일로 이동할 수 없습니다!");
             }
