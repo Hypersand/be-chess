@@ -24,7 +24,7 @@ public abstract class Piece {
         private final char representation;
         private final double defaultPoint;
 
-        private Type(char representation, double defaultPoint) {
+        Type(char representation, double defaultPoint) {
             this.representation = representation;
             this.defaultPoint = defaultPoint;
         }
@@ -115,6 +115,7 @@ public abstract class Piece {
 
     public abstract void verifyMovePosition(Position sourcePosition, Position targetPosition);
 
+    //위치 수정 필요
     public void verifyTargetPosition(Position targetPosition) {
 
         if (targetPosition.getRank() < 0 || targetPosition.getRank() > 7) {

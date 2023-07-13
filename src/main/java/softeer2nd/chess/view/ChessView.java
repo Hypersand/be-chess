@@ -7,7 +7,7 @@ public class ChessView {
     public void print(Board board) {
         System.out.println(board.showBoard());
     }
-
+    
     public String showBoard(Board board) {
         return board.showBoard();
     }

@@ -47,6 +47,7 @@ public class ChessGame {
     }
 
     private int getPawnCount(Color color, int rankLine, int pawnCount) {
+        //스트림 써봐야겠다.
         for (int j = 0; j < FILE_MAX_LENGTH; j++) {
             Rank rank = board.get(j);
             Piece piece = rank.get(rankLine);
@@ -71,7 +72,8 @@ public class ChessGame {
         Piece sourcePiece = board.findPiece(sourcePos);
         Piece targetPiece = board.findPiece(targetPos);
 
-        verifyAndChangeTurn(sourcePiece);
+        verifyTurn(sourcePiece);
+        changeTurn();
 
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
         sourcePiece.verifyTargetPosition(targetPosition);
@@ -79,7 +81,6 @@ public class ChessGame {
         if (sourcePiece.isSameType(Piece.Type.PAWN)) {
             verifyPawnMove(sourcePosition, targetPosition, targetPiece);
         }
-
         if (!sourcePiece.isSameType(Piece.Type.KNIGHT)) {
             verifyPathObstructed(sourcePosition, targetPosition);
         }
@@ -91,15 +92,17 @@ public class ChessGame {
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
     }
 
-    private void verifyAndChangeTurn(Piece sourcePiece) {
-
+    //역할 분리 필요
+    private void verifyTurn(Piece sourcePiece) {
         if (turn.isWhite() && !sourcePiece.isWhite()) {
             throw new InvalidTurnException("흰색이 두어야 할 차례입니다!");
         }
         if (!turn.isWhite() && !sourcePiece.isBlack()) {
             throw new InvalidTurnException("검은색이 두어야 할 차례입니다!");
         }
+    }
 
+    private void changeTurn() {
         turn.changeTurn();
     }
 

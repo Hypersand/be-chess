@@ -5,7 +5,7 @@ import softeer2nd.chess.pieces.Piece.Color;
 public class Turn {
 
     private Color color;
-
+    
     public Turn() {
         color = Color.WHITE;
     }
