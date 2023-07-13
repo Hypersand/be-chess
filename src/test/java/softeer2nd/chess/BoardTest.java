@@ -47,25 +47,6 @@ class BoardTest {
                         view.showBoard(board)
         );
     }
-
-    @Test
-    public void initialize() throws Exception {
-        assertEquals("pppppppp",board.getWhitePawnsResult());
-        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
-    }
-
-    @Test
-    public void getWhitePawnsResult() {
-        String whitePawnsResult = board.getWhitePawnsResult();
-        assertEquals(whitePawnsResult, "pppppppp");
-    }
-
-    @Test
-    public void getBlackPawnsResult() {
-        String blackPawnsResult = board.getBlackPawnsResult();
-        assertEquals(blackPawnsResult, "PPPPPPPP");
-    }
-
     @Test
     public void getWhitePiecesResult() {
         String piecesRepresentation = board.get(7).representationRank();

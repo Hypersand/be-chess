@@ -20,9 +20,6 @@ public class Board {
 
     private final List<Rank> board;
 
-    public Rank whitePawnRank;
-    public Rank blackPawnRank;
-
     public Board(List<Rank> board) {
         this.board = board;
     }
@@ -37,8 +34,8 @@ public class Board {
 
     public void initialize() {
 
-        whitePawnRank = Rank.createWhitePawnRank(new ArrayList<>());
-        blackPawnRank = Rank.createBlackPawnRank(new ArrayList<>());
+        Rank whitePawnRank = Rank.createWhitePawnRank(new ArrayList<>());
+        Rank blackPawnRank = Rank.createBlackPawnRank(new ArrayList<>());
 
         for (int i = 0; i < RANK_MAX_LENGTH; i++) {
             if (i == RANK_BLACK_PIECE) {
@@ -72,18 +69,6 @@ public class Board {
         for (int i = 0; i < RANK_MAX_LENGTH; i++) {
             board.add(Rank.createBlankRank(i));
         }
-    }
-
-    public String getWhitePawnsResult() {
-        return representationPawnRank(whitePawnRank, Color.WHITE);
-    }
-
-    public String getBlackPawnsResult() {
-        return representationPawnRank(blackPawnRank, Color.BLACK);
-    }
-
-    private String representationPawnRank(Rank pawnRank, Color color) {
-        return pawnRank.representationPawnRank(color);
     }
 
     public Piece findPiece(String pos) {
