@@ -1,5 +1,7 @@
 package softeer2nd.chess;
 
+import softeer2nd.chess.exception.InvalidPositionException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +53,15 @@ public class Position {
         map.put("file", position_file);
 
         return map;
+    }
+
+    public void verifyTargetPosition() {
+        if (rank < 0 || rank > 7) {
+            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+        }
+        if (file < 0 || file > 7) {
+            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+        }
     }
 
     public boolean isWhitePawnStartPosition() {

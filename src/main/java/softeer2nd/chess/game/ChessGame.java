@@ -71,7 +71,7 @@ public class ChessGame {
         verifyTurn(sourcePiece);
         changeTurn();
 
-        verifyTargetPosition(targetPosition);
+        targetPosition.verifyTargetPosition();
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
 
         if (sourcePiece.isSameType(Piece.Type.PAWN)) {
@@ -81,7 +81,7 @@ public class ChessGame {
             verifyPathObstructed(sourcePosition, targetPosition);
         }
 
-        targetPiece.verifyTargetColor(sourcePiece.getColor(), targetPiece.getColor());
+        targetPiece.verifyTargetColor(sourcePiece.getColor());
 
         board.get(targetPosition.getRank()).set(targetPosition.getFile(), sourcePiece);
         sourcePiece.movePosition(targetPos);
@@ -99,15 +99,6 @@ public class ChessGame {
 
     private void changeTurn() {
         turn.changeTurn();
-    }
-
-    private void verifyTargetPosition(Position targetPosition) {
-        if (targetPosition.getRank() < 0 || targetPosition.getRank() > 7) {
-            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
-        }
-        if (targetPosition.getFile() < 0 || targetPosition.getFile() > 7) {
-            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
-        }
     }
 
     private void verifyPathObstructed(Position sourcePosition, Position targetPosition) {
