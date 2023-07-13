@@ -3,7 +3,6 @@ package softeer2nd.chess.game;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.Position;
 import softeer2nd.chess.exception.InvalidMovementException;
-import softeer2nd.chess.exception.InvalidPositionException;
 import softeer2nd.chess.exception.InvalidTurnException;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
