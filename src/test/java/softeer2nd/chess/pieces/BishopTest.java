@@ -31,22 +31,6 @@ class BishopTest {
     }
 
     @Test
-    @DisplayName("체스판 밖으로 움직이면 예외 발생")
-    public void piece_moveOut_board() {
-
-        //given
-        Position sourcePosition = new Position("e1");
-        Position targetPosition = new Position("c0");
-        bishop = Piece.createPiece(Piece.Color.BLACK, Piece.Type.BISHOP, sourcePosition);
-
-        //when,then
-        assertThatThrownBy(() -> bishop.verifyTargetPosition(targetPosition))
-                .isInstanceOf(InvalidPositionException.class)
-                .hasMessage("체스판 위에 말을 배치해 주세요!");
-
-    }
-
-    @Test
     @DisplayName("비숍의 올바른 이동 방향이 아니면 예외 발생")
     public void bishop_move_exception() {
 

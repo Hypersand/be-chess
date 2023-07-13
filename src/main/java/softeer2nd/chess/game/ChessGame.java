@@ -2,12 +2,14 @@ package softeer2nd.chess.game;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.Position;
-import softeer2nd.chess.Rank;
 import softeer2nd.chess.exception.InvalidMovementException;
+import softeer2nd.chess.exception.InvalidPositionException;
 import softeer2nd.chess.exception.InvalidTurnException;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Color;
 import softeer2nd.utils.Direction;
+
+import java.util.stream.IntStream;
 
 public class ChessGame {
 
@@ -29,12 +31,11 @@ public class ChessGame {
     }
 
     private double calculatePawn(Piece.Color color) {
-
         double result = 0;
         int pawnCount;
 
         for (int i = 0; i < RANK_MAX_LENGTH; i++) {
-            pawnCount = getPawnCount(color, i, 0);
+            pawnCount = getPawnCount(color, i);
             if (pawnCount == 1) {
                 result += 1;
                 continue;
@@ -43,20 +44,16 @@ public class ChessGame {
                 result += (pawnCount * 0.5);
             }
         }
+
         return result;
     }
 
-    private int getPawnCount(Color color, int rankLine, int pawnCount) {
-        //스트림 써봐야겠다.
-        for (int j = 0; j < FILE_MAX_LENGTH; j++) {
-            Rank rank = board.get(j);
-            Piece piece = rank.get(rankLine);
-
-            if (piece.isSameType(Piece.Type.PAWN) && piece.isSameColor(color)) {
-                pawnCount++;
-            }
-        }
-        return pawnCount;
+    private int getPawnCount(Color color, int rankLine) {
+        return (int) IntStream.range(0, FILE_MAX_LENGTH)
+                .mapToObj(board::get)
+                .map(rank -> rank.get(rankLine))
+                .filter(piece -> piece.isSameColor(color) && piece.isSameType(Piece.Type.PAWN))
+                .count();
     }
 
     public void move(String pos, Piece piece) {
@@ -65,7 +62,6 @@ public class ChessGame {
     }
 
     public void move(String sourcePos, String targetPos) {
-
         Position sourcePosition = new Position(sourcePos);
         Position targetPosition = new Position(targetPos);
 
@@ -75,8 +71,8 @@ public class ChessGame {
         verifyTurn(sourcePiece);
         changeTurn();
 
+        verifyTargetPosition(targetPosition);
         sourcePiece.verifyMovePosition(sourcePosition, targetPosition);
-        sourcePiece.verifyTargetPosition(targetPosition);
 
         if (sourcePiece.isSameType(Piece.Type.PAWN)) {
             verifyPawnMove(sourcePosition, targetPosition, targetPiece);
@@ -92,7 +88,6 @@ public class ChessGame {
         board.get(sourcePosition.getRank()).set(sourcePosition.getFile(), Piece.createPiece(Color.NOCOLOR, Piece.Type.NO_PIECE, new Position(sourcePos)));
     }
 
-    //역할 분리 필요
     private void verifyTurn(Piece sourcePiece) {
         if (turn.isWhite() && !sourcePiece.isWhite()) {
             throw new InvalidTurnException("흰색이 두어야 할 차례입니다!");
@@ -104,6 +99,15 @@ public class ChessGame {
 
     private void changeTurn() {
         turn.changeTurn();
+    }
+
+    private void verifyTargetPosition(Position targetPosition) {
+        if (targetPosition.getRank() < 0 || targetPosition.getRank() > 7) {
+            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+        }
+        if (targetPosition.getFile() < 0 || targetPosition.getFile() > 7) {
+            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+        }
     }
 
     private void verifyPathObstructed(Position sourcePosition, Position targetPosition) {
@@ -119,7 +123,6 @@ public class ChessGame {
             if (verifyRank == targetPosition.getRank() && verifyFile == targetPosition.getFile()) {
                 break;
             }
-
             if (!board.findPiece(verifyRank, verifyFile).isBlank()) {
                 throw new InvalidMovementException("배치하려는 위치의 경로 중간에 말이 있으면 이동할 수 없습니다!");
             }
@@ -132,7 +135,6 @@ public class ChessGame {
         if (targetPiece.isBlank() && Math.abs(xDist) > 0) {
             throw new InvalidMovementException("폰은 기물이 없는 곳으로 대각선 이동할 수 없습니다!");
         }
-
         if (!targetPiece.isBlank() && xDist == 0) {
             throw new InvalidMovementException("폰은 기물이 있는 곳으로 직선 이동할 수 없습니다!");
         }

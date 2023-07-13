@@ -31,23 +31,6 @@ class KingTest {
     }
 
     @Test
-    @DisplayName("체스판 밖으로 움직이면 예외 발생")
-    public void piece_moveOut_board() {
-
-        //given
-        Position sourcePosition = new Position("e1");
-        Position targetPosition = new Position("c0");
-        king = Piece.createPiece(Piece.Color.BLACK, Piece.Type.KING, sourcePosition);
-
-
-        //when,then
-        assertThatThrownBy(() -> king.verifyTargetPosition(targetPosition))
-                .isInstanceOf(InvalidPositionException.class)
-                .hasMessage("체스판 위에 말을 배치해 주세요!");
-
-    }
-
-    @Test
     @DisplayName("킹이 한 칸 이상을 움직이면 예외 발생")
     public void king_move_exception() {
 
