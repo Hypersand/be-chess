@@ -5,6 +5,8 @@ import softeer2nd.chess.exception.InvalidSameColorException;
 
 import java.util.Objects;
 
+import static softeer2nd.chess.exception.InvalidSameColorException.SAME_COLOR_MOVE_MESSAGE;
+
 public abstract class Piece {
 
     public enum Color {
@@ -101,7 +103,7 @@ public abstract class Piece {
 
     public void verifyTargetColor(Color sourceColor) {
         if (color.equals(sourceColor)) {
-            throw new InvalidSameColorException("같은 색 말 위로 이동할 수 없습니다!");
+            throw new InvalidSameColorException(SAME_COLOR_MOVE_MESSAGE);
         }
     }
 

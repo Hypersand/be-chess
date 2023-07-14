@@ -3,6 +3,8 @@ package softeer2nd.chess.pieces;
 import softeer2nd.chess.Position;
 import softeer2nd.chess.exception.BlankPieceException;
 
+import static softeer2nd.chess.exception.BlankPieceException.PIECE_DOES_NOT_EXISTS;
+
 public class Blank extends Piece{
 
     private Blank(Color color, Type type, Position position) {
@@ -15,6 +17,6 @@ public class Blank extends Piece{
 
     @Override
     public void verifyMovePosition(Position sourcePosition, Position targetPosition) {
-        throw new BlankPieceException("말이 존재하지 않는 위치입니다.");
+        throw new BlankPieceException(PIECE_DOES_NOT_EXISTS);
     }
 }

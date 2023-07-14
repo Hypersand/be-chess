@@ -10,6 +10,9 @@ import softeer2nd.utils.Direction;
 
 import java.util.stream.IntStream;
 
+import static softeer2nd.chess.exception.InvalidMovementException.*;
+import static softeer2nd.chess.exception.InvalidTurnException.*;
+
 public class ChessGame {
 
     private static final int RANK_MAX_LENGTH = 8;
@@ -89,10 +92,10 @@ public class ChessGame {
 
     private void verifyTurn(Piece sourcePiece) {
         if (turn.isWhite() && !sourcePiece.isWhite()) {
-            throw new InvalidTurnException("흰색이 두어야 할 차례입니다!");
+            throw new InvalidTurnException(WHITE_TURN_MESSAGE);
         }
         if (!turn.isWhite() && !sourcePiece.isBlack()) {
-            throw new InvalidTurnException("검은색이 두어야 할 차례입니다!");
+            throw new InvalidTurnException(BLACK_TURN_MESSAGE);
         }
     }
 
@@ -114,7 +117,7 @@ public class ChessGame {
                 break;
             }
             if (!board.findPiece(verifyRank, verifyFile).isBlank()) {
-                throw new InvalidMovementException("배치하려는 위치의 경로 중간에 말이 있으면 이동할 수 없습니다!");
+                throw new InvalidMovementException(PATH_OBSTRUCTED_MESSAGE);
             }
         }
     }
@@ -123,10 +126,10 @@ public class ChessGame {
         int xDist = targetPosition.getFile() - sourcePosition.getFile();
 
         if (targetPiece.isBlank() && Math.abs(xDist) > 0) {
-            throw new InvalidMovementException("폰은 기물이 없는 곳으로 대각선 이동할 수 없습니다!");
+            throw new InvalidMovementException(PAWN_MOVE_DIAGONAL_MESSAGE);
         }
         if (!targetPiece.isBlank() && xDist == 0) {
-            throw new InvalidMovementException("폰은 기물이 있는 곳으로 직선 이동할 수 없습니다!");
+            throw new InvalidMovementException(PAWN_MOVE_STRAIGHT_MESSAGE);
         }
     }
 

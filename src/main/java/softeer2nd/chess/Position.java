@@ -5,6 +5,8 @@ import softeer2nd.chess.exception.InvalidPositionException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static softeer2nd.chess.exception.InvalidPositionException.OUT_OF_BOUNDS_MESSAGE;
+
 public class Position {
 
     private static final int BOARD_LENGTH = 8;
@@ -57,10 +59,10 @@ public class Position {
 
     public void verifyTargetPosition() {
         if (rank < 0 || rank > 7) {
-            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+            throw new InvalidPositionException(OUT_OF_BOUNDS_MESSAGE);
         }
         if (file < 0 || file > 7) {
-            throw new InvalidPositionException("체스판 위에 말을 배치해 주세요!");
+            throw new InvalidPositionException(OUT_OF_BOUNDS_MESSAGE);
         }
     }
 
