@@ -12,11 +12,11 @@ import java.util.stream.Stream;
 
 public class Board {
 
-    public static final int RANK_MAX_LENGTH = 8;
-    public static final int RANK_WHITE_PAWN = 6;
-    public static final int RANK_WHITE_PIECE = 7;
-    public static final int RANK_BLACK_PAWN = 1;
-    public static final int RANK_BLACK_PIECE = 0;
+    private static final int RANK_MAX_LENGTH = 8;
+    private static final int RANK_WHITE_PAWN = 6;
+    private static final int RANK_WHITE_PIECE = 7;
+    private static final int RANK_BLACK_PAWN = 1;
+    private static final int RANK_BLACK_PIECE = 0;
 
     private final List<Rank> board;
 

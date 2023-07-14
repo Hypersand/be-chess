@@ -13,9 +13,9 @@ import java.util.stream.Stream;
 
 public class Rank {
 
-    public static final int WHITE_PAWN_RANK = 2;
-    public static final int BLACK_PAWN_RANK = 7;
-    public static final int FILE_MAX_LENGTH = 8;
+    private static final int WHITE_PAWN_RANK = 2;
+    private static final int BLACK_PAWN_RANK = 7;
+    private static final int FILE_MAX_LENGTH = 8;
 
     private final List<Piece> rank;
 
