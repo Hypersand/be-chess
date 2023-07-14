@@ -25,7 +25,6 @@ public class Position {
     }
 
     public Position(String position) {
-
         Map<String, Integer> posMap = calculatePosition(position);
 
         this.rank = posMap.get("rank");
@@ -44,7 +43,6 @@ public class Position {
     }
 
     private Map<String, Integer> calculatePosition(String position) {
-
         Map<String, Integer> map = new HashMap<>();
 
         String[] positions = position.split("");

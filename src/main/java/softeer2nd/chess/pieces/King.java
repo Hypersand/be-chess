@@ -13,11 +13,9 @@ public class King extends Piece {
     public static King createWhiteKing(Position position) {
         return new King(Color.WHITE, Type.KING, position);
     }
-
     public static King createBlackKing(Position position) {
         return new King(Color.BLACK, Type.KING, position);
     }
-
     @Override
     public void verifyMovePosition(Position sourcePosition, Position targetPosition) {
         int xDist = targetPosition.getFile() - sourcePosition.getFile();
@@ -28,7 +26,6 @@ public class King extends Piece {
                 return;
             }
         }
-
         throw new InvalidMovementException("킹의 이동이 올바르지 않습니다!");
     }
 }

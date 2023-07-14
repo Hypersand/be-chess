@@ -33,7 +33,6 @@ public class Board {
     }
 
     public void initialize() {
-
         Rank whitePawnRank = Rank.createWhitePawnRank(new ArrayList<>());
         Rank blackPawnRank = Rank.createBlackPawnRank(new ArrayList<>());
 
@@ -42,17 +41,14 @@ public class Board {
                 board.add(Rank.createPieceRank(Color.BLACK));
                 continue;
             }
-
             if (i == RANK_BLACK_PAWN) {
                 board.add(blackPawnRank);
                 continue;
             }
-
             if (i == RANK_WHITE_PAWN) {
                 board.add(whitePawnRank);
                 continue;
             }
-
             if (i == RANK_WHITE_PIECE) {
                 board.add(Rank.createPieceRank(Color.WHITE));
                 continue;
@@ -63,7 +59,6 @@ public class Board {
     }
 
     public void initializeEmpty() {
-
         board.clear();
 
         for (int i = 0; i < RANK_MAX_LENGTH; i++) {
@@ -101,7 +96,6 @@ public class Board {
     }
 
     public List<Piece> getPieceListByColor(Color color) {
-
         return board.stream()
                 .flatMap(Rank::stream)
                 .filter(piece -> piece.getColor().equals(color))
